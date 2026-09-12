@@ -1,0 +1,784 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+        content="Confira os trabalhos da Samira Beauty — Cílios e Sobrancelhas.">
+
+    <title>Trabalhos | Samira Beauty</title>
+
+    <!-- FONTES -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- ÍCONES -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <!-- CSS -->
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="stylesheet" href="css/galeria.css">
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     BRILHOS
+===================================================== -->
+
+<div class="sparkles">
+
+    <span>✦</span>
+    <span>✧</span>
+    <span>✦</span>
+    <span>✧</span>
+    <span>✦</span>
+    <span>✧</span>
+
+</div>
+
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="header">
+
+    <div class="header-container">
+
+
+        <a href="index.html" class="logo">
+
+            <span class="logo-small">
+                SAMIRA
+            </span>
+
+            <span class="logo-main">
+                Beauty
+            </span>
+
+        </a>
+
+
+
+        <nav class="nav">
+
+            <a href="index.html">
+                Início
+            </a>
+
+            <a href="index.html#sobre">
+                Sobre
+            </a>
+
+            <a href="index.html#servicos">
+                Serviços
+            </a>
+
+            <a href="galeria.html" class="active">
+                Trabalhos
+            </a>
+
+            <a href="agendamento.html">
+                Agendamento
+            </a>
+
+        </nav>
+
+
+
+        <a
+            href="agendamento.html"
+            class="header-button"
+        >
+
+            Agendar horário
+
+            <i class="fa-solid fa-arrow-right"></i>
+
+        </a>
+
+
+
+        <button
+            class="menu-button"
+            id="menuButton"
+            aria-label="Abrir menu"
+        >
+
+            <i class="fa-solid fa-bars"></i>
+
+        </button>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     MENU MOBILE
+===================================================== -->
+
+<div class="mobile-menu" id="mobileMenu">
+
+    <button
+        class="close-menu"
+        id="closeMenu"
+    >
+
+        <i class="fa-solid fa-xmark"></i>
+
+    </button>
+
+
+    <a href="index.html">
+        Início
+    </a>
+
+    <a href="index.html#sobre">
+        Sobre
+    </a>
+
+    <a href="index.html#servicos">
+        Serviços
+    </a>
+
+    <a href="galeria.html">
+        Trabalhos
+    </a>
+
+    <a href="agendamento.html">
+        Agendamento
+    </a>
+
+</div>
+
+
+
+<!-- =====================================================
+     TOPO DA GALERIA
+===================================================== -->
+
+<main>
+
+
+<section class="gallery-hero">
+
+    <div class="gallery-hero-content">
+
+        <span class="section-label">
+            PORTFÓLIO DE TRABALHOS
+        </span>
+
+        <h1>
+            Beleza em
+            <span>cada detalhe.</span>
+        </h1>
+
+        <p>
+            Confira alguns dos trabalhos realizados
+            e inspire-se para o seu próximo atendimento.
+        </p>
+
+    </div>
+
+
+    <div class="gallery-hero-sparkle sparkle-1">
+        ✦
+    </div>
+
+    <div class="gallery-hero-sparkle sparkle-2">
+        ✧
+    </div>
+
+    <div class="gallery-hero-sparkle sparkle-3">
+        ✦
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     GALERIA
+===================================================== -->
+
+<section class="gallery-section">
+
+    <div class="gallery-container">
+
+
+        <!-- FILTROS -->
+
+        <div class="gallery-filters">
+
+            <button
+                class="filter-button active"
+                data-filter="all"
+            >
+                Todos
+            </button>
+
+            <button
+                class="filter-button"
+                data-filter="cilios"
+            >
+                Cílios
+            </button>
+
+            <button
+                class="filter-button"
+                data-filter="sobrancelhas"
+            >
+                Sobrancelhas
+            </button>
+
+            <button
+                class="filter-button"
+                data-filter="antes-depois"
+            >
+                Antes & Depois
+            </button>
+
+        </div>
+
+
+
+        <!-- GRID -->
+
+        <div class="full-gallery" id="galleryGrid">
+
+
+            <!-- FOTO 01 -->
+
+            <article
+                class="gallery-photo"
+                data-category="cilios"
+            >
+
+                <div class="photo-placeholder">
+
+                    <i class="fa-regular fa-eye"></i>
+
+                    <span>
+                        Trabalho de cílios
+                    </span>
+
+                    <small>
+                        Foto 01
+                    </small>
+
+                </div>
+
+                <button
+                    class="view-photo"
+                    aria-label="Visualizar foto"
+                >
+
+                    <i class="fa-solid fa-expand"></i>
+
+                </button>
+
+            </article>
+
+
+
+            <!-- FOTO 02 -->
+
+            <article
+                class="gallery-photo"
+                data-category="sobrancelhas"
+            >
+
+                <div class="photo-placeholder">
+
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+
+                    <span>
+                        Design de sobrancelhas
+                    </span>
+
+                    <small>
+                        Foto 02
+                    </small>
+
+                </div>
+
+                <button
+                    class="view-photo"
+                    aria-label="Visualizar foto"
+                >
+
+                    <i class="fa-solid fa-expand"></i>
+
+                </button>
+
+            </article>
+
+
+
+            <!-- FOTO 03 -->
+
+            <article
+                class="gallery-photo"
+                data-category="cilios"
+            >
+
+                <div class="photo-placeholder">
+
+                    <i class="fa-regular fa-eye"></i>
+
+                    <span>
+                        Extensão de cílios
+                    </span>
+
+                    <small>
+                        Foto 03
+                    </small>
+
+                </div>
+
+                <button
+                    class="view-photo"
+                    aria-label="Visualizar foto"
+                >
+
+                    <i class="fa-solid fa-expand"></i>
+
+                </button>
+
+            </article>
+
+
+
+            <!-- FOTO 04 -->
+
+            <article
+                class="gallery-photo"
+                data-category="antes-depois"
+            >
+
+                <div class="photo-placeholder">
+
+                    <i class="fa-solid fa-arrows-left-right"></i>
+
+                    <span>
+                        Antes & Depois
+                    </span>
+
+                    <small>
+                        Foto 04
+                    </small>
+
+                </div>
+
+                <button
+                    class="view-photo"
+                    aria-label="Visualizar foto"
+                >
+
+                    <i class="fa-solid fa-expand"></i>
+
+                </button>
+
+            </article>
+
+
+
+            <!-- FOTO 05 -->
+
+            <article
+                class="gallery-photo"
+                data-category="sobrancelhas"
+            >
+
+                <div class="photo-placeholder">
+
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+
+                    <span>
+                        Sobrancelhas
+                    </span>
+
+                    <small>
+                        Foto 05
+                    </small>
+
+                </div>
+
+                <button
+                    class="view-photo"
+                    aria-label="Visualizar foto"
+                >
+
+                    <i class="fa-solid fa-expand"></i>
+
+                </button>
+
+            </article>
+
+
+
+            <!-- FOTO 06 -->
+
+            <article
+                class="gallery-photo"
+                data-category="cilios"
+            >
+
+                <div class="photo-placeholder">
+
+                    <i class="fa-regular fa-eye"></i>
+
+                    <span>
+                        Lash lifting
+                    </span>
+
+                    <small>
+                        Foto 06
+                    </small>
+
+                </div>
+
+                <button
+                    class="view-photo"
+                    aria-label="Visualizar foto"
+                >
+
+                    <i class="fa-solid fa-expand"></i>
+
+                </button>
+
+            </article>
+
+
+
+            <!-- FOTO 07 -->
+
+            <article
+                class="gallery-photo"
+                data-category="antes-depois"
+            >
+
+                <div class="photo-placeholder">
+
+                    <i class="fa-solid fa-sparkles"></i>
+
+                    <span>
+                        Resultado
+                    </span>
+
+                    <small>
+                        Foto 07
+                    </small>
+
+                </div>
+
+                <button
+                    class="view-photo"
+                    aria-label="Visualizar foto"
+                >
+
+                    <i class="fa-solid fa-expand"></i>
+
+                </button>
+
+            </article>
+
+
+
+            <!-- FOTO 08 -->
+
+            <article
+                class="gallery-photo"
+                data-category="sobrancelhas"
+            >
+
+                <div class="photo-placeholder">
+
+                    <i class="fa-solid fa-star"></i>
+
+                    <span>
+                        Resultado final
+                    </span>
+
+                    <small>
+                        Foto 08
+                    </small>
+
+                </div>
+
+                <button
+                    class="view-photo"
+                    aria-label="Visualizar foto"
+                >
+
+                    <i class="fa-solid fa-expand"></i>
+
+                </button>
+
+            </article>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     CTA
+===================================================== -->
+
+<section class="gallery-cta">
+
+    <div class="gallery-cta-content">
+
+        <span class="section-label">
+            GOSTOU DOS RESULTADOS?
+        </span>
+
+        <h2>
+            Seu próximo
+            <span>pode ser aqui.</span>
+        </h2>
+
+        <p>
+            Escolha o procedimento que combina com você
+            e reserve seu horário.
+        </p>
+
+        <a
+            href="agendamento.html"
+            class="button-white"
+        >
+
+            <i class="fa-regular fa-calendar"></i>
+
+            Agendar meu horário
+
+        </a>
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     MODAL DA FOTO
+===================================================== -->
+
+<div
+    class="photo-modal"
+    id="photoModal"
+>
+
+    <button
+        class="modal-close"
+        id="modalClose"
+        aria-label="Fechar imagem"
+    >
+
+        <i class="fa-solid fa-xmark"></i>
+
+    </button>
+
+
+    <div class="modal-content">
+
+        <div
+            class="modal-placeholder"
+            id="modalPlaceholder"
+        >
+
+            <i class="fa-solid fa-image"></i>
+
+            <span>
+                Visualização da foto
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="footer">
+
+    <div class="footer-container">
+
+
+        <div class="footer-brand">
+
+            <a
+                href="index.html"
+                class="logo"
+            >
+
+                <span class="logo-small">
+                    SAMIRA
+                </span>
+
+                <span class="logo-main">
+                    Beauty
+                </span>
+
+            </a>
+
+            <p>
+                Realçando sua beleza,
+                um detalhe de cada vez. ✦
+            </p>
+
+        </div>
+
+
+
+        <div class="footer-links">
+
+            <h4>
+                Navegação
+            </h4>
+
+            <a href="index.html">
+                Início
+            </a>
+
+            <a href="index.html#sobre">
+                Sobre
+            </a>
+
+            <a href="index.html#servicos">
+                Serviços
+            </a>
+
+            <a href="galeria.html">
+                Trabalhos
+            </a>
+
+        </div>
+
+
+
+        <div class="footer-links">
+
+            <h4>
+                Atendimento
+            </h4>
+
+            <span>
+                Segunda a sexta
+            </span>
+
+            <a href="agendamento.html">
+                Agendar horário
+            </a>
+
+        </div>
+
+
+
+        <div class="footer-links">
+
+            <h4>
+                Redes sociais
+            </h4>
+
+            <a href="#" target="_blank">
+                <i class="fa-brands fa-instagram"></i>
+                Instagram
+            </a>
+
+            <a href="#" target="_blank">
+                <i class="fa-brands fa-whatsapp"></i>
+                WhatsApp
+            </a>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="footer-bottom">
+
+        <span>
+            © 2026 Samira Beauty. Todos os direitos reservados.
+        </span>
+
+        <span>
+            Feito com ✦ e carinho
+        </span>
+
+    </div>
+
+</footer>
+
+
+
+<!-- =====================================================
+     WHATSAPP
+===================================================== -->
+
+<a
+    href="#"
+    class="whatsapp-button"
+    target="_blank"
+    aria-label="Falar pelo WhatsApp"
+>
+
+    <i class="fa-brands fa-whatsapp"></i>
+
+    <span>
+        Fale conosco
+    </span>
+
+</a>
+
+
+
+<!-- JAVASCRIPT -->
+
+<script src="js/script.js"></script>
+
+<script src="js/galeria.js"></script>
+
+
+</body>
+
+</html>
+```
