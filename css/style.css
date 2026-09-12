@@ -1902,3 +1902,93 @@ img {
     }
 }
 ```
+```css
+/* =========================================================
+   ANIMAÇÕES DE SCROLL
+========================================================= */
+
+.scroll-animation {
+    opacity: 0;
+    transform: translateY(30px);
+
+    transition:
+        opacity 0.8s ease,
+        transform 0.8s ease;
+}
+
+.scroll-animation.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   HEADER AO ROLAR
+========================================================= */
+
+.header.scrolled {
+    position: fixed;
+
+    background: rgba(77, 12, 45, 0.92);
+
+    backdrop-filter: blur(15px);
+
+    box-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.12);
+
+    padding: 15px 0;
+
+    animation: headerAppear 0.35s ease;
+}
+
+@keyframes headerAppear {
+
+    from {
+        transform: translateY(-100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================================================
+   BRILHO INTERATIVO DOS CARDS
+========================================================= */
+
+.service-card::after {
+    content: "";
+
+    position: absolute;
+
+    width: 180px;
+    height: 180px;
+
+    left: var(--mouse-x, 50%);
+    top: var(--mouse-y, 50%);
+
+    transform: translate(-50%, -50%);
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 190, 220, 0.18),
+            transparent 70%
+        );
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    transition: opacity 0.3s ease;
+}
+
+.service-card:hover::after {
+    opacity: 1;
+}
+```
+
