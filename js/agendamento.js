@@ -10,7 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
        ELEMENTOS
     ===================================================== */
 
-    const form = document.getElementById("appointmentForm");
+    const form =
+        document.getElementById("appointmentForm");
 
     const serviceInput =
         document.getElementById("service");
@@ -60,6 +61,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const floatingWhatsapp =
         document.getElementById("floatingWhatsapp");
 
+    const footerWhatsapp =
+        document.getElementById("footerWhatsapp");
+
     const currentYear =
         document.getElementById("currentYear");
 
@@ -69,11 +73,13 @@ document.addEventListener("DOMContentLoaded", () => {
         !serviceInput ||
         !dateInput ||
         !timeGrid ||
-        !timeInput
+        !timeInput ||
+        !nameInput ||
+        !phoneInput ||
+        !messageInput
     ) {
-
         console.error(
-            "Samira Beauty: elementos do agendamento não encontrados."
+            "Samira Beauty: elementos do formulário de agendamento não encontrados."
         );
 
         return;
@@ -99,18 +105,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const WORK_END = 18;
 
-
     /*
-       Coloque posteriormente o WhatsApp real da Samira.
-
-       Exemplo:
-       55 + DDD + número
-
-       Não use espaços, parênteses ou traços.
+       WhatsApp da Samira
+       55 = Brasil
+       42 = DDD
+       988620679 = número
     */
 
     const WHATSAPP_NUMBER =
-        "5542999999999";
+        "5542988620679";
 
 
     /* =====================================================
@@ -119,7 +122,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function getToday() {
 
-        const today = new Date();
+        const today =
+            new Date();
 
         const year =
             today.getFullYear();
@@ -139,7 +143,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    dateInput.min = getToday();
+    dateInput.min =
+        getToday();
 
 
     /* =====================================================
@@ -164,10 +169,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
-       VERIFICAR SEGUNDA A SEXTA
+       VERIFICAR DIA ÚTIL
     ===================================================== */
 
-    function isWorkingDay(dateString) {
+    function isWorkingDay(
+        dateString
+    ) {
 
         if (!dateString) {
             return false;
@@ -218,7 +225,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
-       HORÁRIOS DO DIA
+       HORÁRIOS
     ===================================================== */
 
     function getAllTimes() {
@@ -257,6 +264,7 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
         }
+
 
         const snapshot =
             await db
@@ -330,7 +338,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         timeInput.value = "";
 
-        summaryTime.textContent = "—";
+        if (summaryTime) {
+            summaryTime.textContent = "—";
+        }
 
 
         if (!selectedDate) {
@@ -520,8 +530,10 @@ document.addEventListener("DOMContentLoaded", () => {
             time;
 
 
-        summaryTime.textContent =
-            time;
+        if (summaryTime) {
+            summaryTime.textContent =
+                time;
+        }
 
     }
 
@@ -532,20 +544,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function updateSummary() {
 
-        summaryService.textContent =
-            serviceInput.value || "—";
+        if (summaryService) {
+
+            summaryService.textContent =
+                serviceInput.value ||
+                "—";
+
+        }
 
 
-        summaryDate.textContent =
-            dateInput.value
-                ? formatDate(
-                    dateInput.value
-                )
-                : "—";
+        if (summaryDate) {
+
+            summaryDate.textContent =
+                dateInput.value
+                    ? formatDate(
+                        dateInput.value
+                    )
+                    : "—";
+
+        }
 
 
-        summaryTime.textContent =
-            timeInput.value || "—";
+        if (summaryTime) {
+
+            summaryTime.textContent =
+                timeInput.value ||
+                "—";
+
+        }
 
     }
 
@@ -560,7 +586,8 @@ document.addEventListener("DOMContentLoaded", () => {
         "change",
         async () => {
 
-            timeInput.value = "";
+            timeInput.value =
+                "";
 
             updateSummary();
 
@@ -576,7 +603,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     "A Samira atende somente de segunda a sexta-feira. 💗"
                 );
 
-                dateInput.value = "";
+                dateInput.value =
+                    "";
 
                 updateSummary();
 
@@ -705,7 +733,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* =====================================================
        SALVAR AGENDAMENTO
-       ATÔMICO
     ===================================================== */
 
     async function saveAppointment(
@@ -744,13 +771,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 .doc(slotId);
 
 
-        /*
-           As duas gravações acontecem juntas.
-
-           Se o horário já existir, o Firestore
-           rejeitará a reserva da cliente.
-        */
-
         const batch =
             db.batch();
 
@@ -758,6 +778,7 @@ document.addEventListener("DOMContentLoaded", () => {
         batch.set(
             availabilityRef,
             {
+
                 date:
                     appointment.date,
 
@@ -768,6 +789,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     firebase.firestore
                         .FieldValue
                         .serverTimestamp()
+
             }
         );
 
@@ -818,7 +840,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
-       MENSAGEM PARA WHATSAPP
+       MENSAGEM DO WHATSAPP
     ===================================================== */
 
     function createWhatsAppMessage(
@@ -963,11 +985,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             try {
 
-                /*
-                   Verificação visual extra.
-                   A segurança real acontece no batch.
-                */
-
                 const occupied =
                     await getOccupiedTimes(
                         appointment.date
@@ -997,22 +1014,40 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
 
 
-                /* -----------------------------------------
+                /* =================================================
                    CONFIRMAÇÃO
-                ----------------------------------------- */
+                ================================================= */
 
-                confirmationService.textContent =
-                    appointment.service;
+                if (
+                    confirmationService
+                ) {
+
+                    confirmationService.textContent =
+                        appointment.service;
+
+                }
 
 
-                confirmationDate.textContent =
-                    formatDate(
-                        appointment.date
-                    );
+                if (
+                    confirmationDate
+                ) {
+
+                    confirmationDate.textContent =
+                        formatDate(
+                            appointment.date
+                        );
+
+                }
 
 
-                confirmationTime.textContent =
-                    appointment.time;
+                if (
+                    confirmationTime
+                ) {
+
+                    confirmationTime.textContent =
+                        appointment.time;
+
+                }
 
 
                 const whatsappMessage =
@@ -1033,8 +1068,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
 
-                confirmationSection.hidden =
-                    false;
+                if (
+                    confirmationSection
+                ) {
+
+                    confirmationSection.hidden =
+                        false;
+
+                }
 
 
                 const appointmentSection =
@@ -1053,13 +1094,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
 
-                confirmationSection.scrollIntoView({
-                    behavior:
-                        "smooth",
+                if (
+                    confirmationSection
+                ) {
 
-                    block:
-                        "start"
-                });
+                    confirmationSection.scrollIntoView({
+                        behavior:
+                            "smooth",
+
+                        block:
+                            "start"
+                    });
+
+                }
 
 
             } catch (error) {
@@ -1069,11 +1116,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     error
                 );
 
-
-                /*
-                   Se duas clientes clicarem quase juntas,
-                   uma consegue e a outra recebe esta mensagem.
-                */
 
                 alert(
                     "Não foi possível reservar esse horário. Ele pode ter acabado de ser ocupado. Atualize os horários e tente novamente. 💗"
@@ -1093,7 +1135,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
-       WHATSAPP
+       WHATSAPP FLUTUANTE
     ===================================================== */
 
     if (
@@ -1101,6 +1143,20 @@ document.addEventListener("DOMContentLoaded", () => {
     ) {
 
         floatingWhatsapp.href =
+            `https://wa.me/${WHATSAPP_NUMBER}`;
+
+    }
+
+
+    /* =====================================================
+       WHATSAPP DO FOOTER
+    ===================================================== */
+
+    if (
+        footerWhatsapp
+    ) {
+
+        footerWhatsapp.href =
             `https://wa.me/${WHATSAPP_NUMBER}`;
 
     }
