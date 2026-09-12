@@ -10,17 +10,17 @@
 
     <meta
         name="description"
-        content="Painel administrativo da Samira Beauty."
+        content="Painel administrativo Samira Beauty"
     >
 
-    <title>Administração | Samira Beauty</title>
+    <title>Painel Administrativo | Samira Beauty</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link
-        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
         rel="stylesheet"
     >
 
@@ -34,218 +34,40 @@
     <link rel="stylesheet" href="css/admin.css">
 </head>
 
-<body>
+<body class="admin-page">
 
     <!-- =====================================================
-         PROTEÇÃO DE CARREGAMENTO
-         ===================================================== -->
+         LOADER
+    ====================================================== -->
 
-    <div
-        class="admin-page-loader"
-        id="adminPageLoader"
-    >
+    <div class="admin-page-loader" id="adminPageLoader">
         <div class="admin-loader-content">
-            <div class="admin-loader-logo">
-                <i class="fa-solid fa-sparkles"></i>
-            </div>
-
-            <h2>Samira Beauty</h2>
-
-            <p>
-                Carregando seu painel...
-            </p>
+            <div class="admin-loader-logo">SB</div>
 
             <div class="admin-loader-spinner"></div>
+
+            <p>Carregando painel...</p>
         </div>
     </div>
 
 
     <!-- =====================================================
-         SIDEBAR
-         ===================================================== -->
+         MENU MOBILE
+    ====================================================== -->
 
-    <aside
-        class="admin-sidebar"
-        id="adminSidebar"
+    <button
+        class="admin-menu-button"
+        id="adminMenuButton"
+        type="button"
+        aria-label="Abrir menu"
     >
-
-        <div class="admin-sidebar-top">
-
-            <!-- Logo -->
-            <div class="admin-brand">
-
-                <div class="admin-brand-icon">
-                    <i class="fa-solid fa-sparkles"></i>
-                </div>
-
-                <div class="admin-brand-text">
-                    <strong>Samira Beauty</strong>
-                    <span>Painel Administrativo</span>
-                </div>
-
-            </div>
-
-
-            <!-- Fechar no mobile -->
-            <button
-                type="button"
-                class="admin-sidebar-close"
-                id="adminSidebarClose"
-                aria-label="Fechar menu"
-            >
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-
-
-            <!-- Navegação -->
-            <nav class="admin-navigation">
-
-                <p class="admin-nav-title">
-                    Principal
-                </p>
-
-                <button
-                    type="button"
-                    class="admin-nav-item active"
-                    data-section="dashboard"
-                >
-                    <span class="admin-nav-icon">
-                        <i class="fa-solid fa-house"></i>
-                    </span>
-
-                    <span>Visão geral</span>
-                </button>
-
-
-                <button
-                    type="button"
-                    class="admin-nav-item"
-                    data-section="agendamentos"
-                >
-                    <span class="admin-nav-icon">
-                        <i class="fa-regular fa-calendar-check"></i>
-                    </span>
-
-                    <span>Agendamentos</span>
-
-                    <span
-                        class="admin-nav-badge"
-                        id="pendingNavBadge"
-                        hidden
-                    >
-                        0
-                    </span>
-                </button>
-
-
-                <button
-                    type="button"
-                    class="admin-nav-item"
-                    data-section="horarios"
-                >
-                    <span class="admin-nav-icon">
-                        <i class="fa-regular fa-clock"></i>
-                    </span>
-
-                    <span>Horários</span>
-                </button>
-
-
-                <p class="admin-nav-title admin-nav-title-spaced">
-                    Conteúdo
-                </p>
-
-
-                <button
-                    type="button"
-                    class="admin-nav-item"
-                    data-section="galeria"
-                >
-                    <span class="admin-nav-icon">
-                        <i class="fa-regular fa-images"></i>
-                    </span>
-
-                    <span>Galeria</span>
-                </button>
-
-
-                <button
-                    type="button"
-                    class="admin-nav-item"
-                    data-section="servicos"
-                >
-                    <span class="admin-nav-icon">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i>
-                    </span>
-
-                    <span>Serviços</span>
-                </button>
-
-
-                <p class="admin-nav-title admin-nav-title-spaced">
-                    Sistema
-                </p>
-
-
-                <button
-                    type="button"
-                    class="admin-nav-item"
-                    data-section="configuracoes"
-                >
-                    <span class="admin-nav-icon">
-                        <i class="fa-solid fa-gear"></i>
-                    </span>
-
-                    <span>Configurações</span>
-                </button>
-
-            </nav>
-
-        </div>
-
-
-        <!-- Usuária -->
-        <div class="admin-sidebar-bottom">
-
-            <div class="admin-user-card">
-
-                <div class="admin-user-avatar">
-                    <i class="fa-solid fa-user"></i>
-                </div>
-
-                <div class="admin-user-info">
-
-                    <strong id="adminUserName">
-                        Samira
-                    </strong>
-
-                    <span id="adminUserEmail">
-                        Administradora
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <button
-                type="button"
-                class="admin-logout-button"
-                id="adminLogoutButton"
-            >
-                <i class="fa-solid fa-arrow-right-from-bracket"></i>
-
-                <span>Sair do painel</span>
-            </button>
-
-        </div>
-
-    </aside>
+        <i class="fa-solid fa-bars"></i>
+    </button>
 
 
     <!-- =====================================================
          OVERLAY MOBILE
-         ===================================================== -->
+    ====================================================== -->
 
     <div
         class="admin-sidebar-overlay"
@@ -254,35 +76,172 @@
 
 
     <!-- =====================================================
-         ÁREA PRINCIPAL
-         ===================================================== -->
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="admin-sidebar" id="adminSidebar">
+
+        <div class="admin-sidebar-top">
+
+            <!-- Logo -->
+
+            <div class="admin-brand">
+
+                <div class="admin-brand-logo">
+                    SB
+                </div>
+
+                <div class="admin-brand-text">
+                    <strong>Samira Beauty</strong>
+                    <span>Painel administrativo</span>
+                </div>
+
+            </div>
+
+
+            <!-- Fechar mobile -->
+
+            <button
+                class="admin-sidebar-close"
+                id="adminSidebarClose"
+                type="button"
+                aria-label="Fechar menu"
+            >
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+
+        <!-- Navegação -->
+
+        <nav class="admin-navigation">
+
+            <button
+                class="admin-nav-item active"
+                data-section="dashboard"
+                type="button"
+            >
+                <i class="fa-solid fa-house"></i>
+                <span>Visão geral</span>
+            </button>
+
+
+            <button
+                class="admin-nav-item"
+                data-section="appointments"
+                type="button"
+            >
+                <i class="fa-regular fa-calendar-check"></i>
+
+                <span>Agendamentos</span>
+
+                <span
+                    class="admin-nav-badge"
+                    id="pendingAppointmentsBadge"
+                >
+                    0
+                </span>
+            </button>
+
+
+            <button
+                class="admin-nav-item"
+                data-section="clients"
+                type="button"
+            >
+                <i class="fa-solid fa-users"></i>
+                <span>Clientes</span>
+            </button>
+
+
+            <button
+                class="admin-nav-item"
+                data-section="services"
+                type="button"
+            >
+                <i class="fa-solid fa-sparkles"></i>
+                <span>Serviços</span>
+            </button>
+
+
+            <button
+                class="admin-nav-item"
+                data-section="gallery"
+                type="button"
+            >
+                <i class="fa-regular fa-images"></i>
+                <span>Galeria</span>
+            </button>
+
+        </nav>
+
+
+        <!-- Rodapé da sidebar -->
+
+        <div class="admin-sidebar-bottom">
+
+            <div class="admin-user-card">
+
+                <div class="admin-user-avatar">
+                    S
+                </div>
+
+                <div class="admin-user-info">
+                    <strong id="adminUserName">
+                        Samira
+                    </strong>
+
+                    <span id="adminUserEmail">
+                        Administradora
+                    </span>
+                </div>
+
+            </div>
+
+
+            <button
+                class="admin-logout-button"
+                type="button"
+                id="adminLogoutButton"
+            >
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                <span>Sair da conta</span>
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         CONTEÚDO PRINCIPAL
+    ====================================================== -->
 
     <main class="admin-main">
 
-        <!-- HEADER -->
+
+        <!-- =================================================
+             HEADER
+        ================================================== -->
+
         <header class="admin-header">
 
             <div class="admin-header-left">
 
-                <button
-                    type="button"
-                    class="admin-menu-button"
-                    id="adminMenuButton"
-                    aria-label="Abrir menu"
-                >
-                    <i class="fa-solid fa-bars"></i>
-                </button>
+                <div class="admin-page-heading">
 
-
-                <div>
-
-                    <span class="admin-header-small">
-                        Bem-vinda de volta ✨
+                    <span class="admin-eyebrow">
+                        Área administrativa
                     </span>
 
                     <h1 id="adminPageTitle">
                         Visão geral
                     </h1>
+
+                    <p id="adminPageSubtitle">
+                        Acompanhe seus atendimentos e agendamentos.
+                    </p>
 
                 </div>
 
@@ -291,22 +250,23 @@
 
             <div class="admin-header-right">
 
-                <!-- Status Firebase -->
-                <div
-                    class="admin-online-status"
-                    id="adminConnectionStatus"
+                <button
+                    class="admin-refresh-button"
+                    id="adminRefreshButton"
+                    data-refresh
+                    type="button"
+                    title="Atualizar informações"
                 >
-                    <span class="status-dot"></span>
-                    <span>Online</span>
-                </div>
+                    <i class="fa-solid fa-rotate"></i>
+                    <span>Atualizar</span>
+                </button>
 
 
-                <!-- Site -->
                 <a
                     href="index.html"
                     class="admin-view-site"
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel="noopener"
                 >
                     <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     <span>Ver site</span>
@@ -318,1332 +278,742 @@
 
 
         <!-- =================================================
-             CONTEÚDO
-             ================================================= -->
+             DASHBOARD
+        ================================================== -->
 
-        <div class="admin-content">
+        <section
+            class="admin-section active"
+            data-section-content="dashboard"
+            id="dashboardSection"
+        >
 
+            <!-- Boas-vindas -->
 
-            <!-- =================================================
-                 DASHBOARD
-                 ================================================= -->
+            <div class="admin-welcome-card">
 
-            <section
-                class="admin-section active"
-                id="section-dashboard"
-            >
+                <div class="admin-welcome-content">
 
-                <!-- Hero -->
-                <div class="admin-welcome-card">
+                    <span class="admin-welcome-small">
+                        Olá, Samira ✨
+                    </span>
 
-                    <div class="admin-welcome-content">
+                    <h2>
+                        Seu espaço de beleza,
+                        <span>sob seu controle.</span>
+                    </h2>
 
-                        <span class="admin-eyebrow">
-                            SAMIRA BEAUTY
-                        </span>
-
-                        <h2>
-                            Seu espaço de beleza,
-                            <span>organizado em um só lugar.</span>
-                        </h2>
-
-                        <p>
-                            Acompanhe seus agendamentos, horários,
-                            serviços e o conteúdo do seu site de
-                            maneira simples e profissional.
-                        </p>
-
-                    </div>
-
-                    <div class="admin-welcome-decoration">
-                        <i class="fa-solid fa-sparkles"></i>
-                    </div>
+                    <p>
+                        Aqui você pode acompanhar seus horários,
+                        organizar seus atendimentos e visualizar
+                        as solicitações das suas clientes.
+                    </p>
 
                 </div>
 
-
-                <!-- Cards estatísticos -->
-                <div class="admin-stats-grid">
-
-                    <div class="admin-stat-card">
-
-                        <div class="admin-stat-icon">
-                            <i class="fa-regular fa-calendar-check"></i>
-                        </div>
-
-                        <div class="admin-stat-info">
-
-                            <span>
-                                Agendamentos
-                            </span>
-
-                            <strong id="totalAppointments">
-                                0
-                            </strong>
-
-                            <small>
-                                total registrados
-                            </small>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="admin-stat-card">
-
-                        <div class="admin-stat-icon">
-                            <i class="fa-regular fa-hourglass-half"></i>
-                        </div>
-
-                        <div class="admin-stat-info">
-
-                            <span>
-                                Pendentes
-                            </span>
-
-                            <strong id="pendingAppointments">
-                                0
-                            </strong>
-
-                            <small>
-                                aguardando confirmação
-                            </small>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="admin-stat-card">
-
-                        <div class="admin-stat-icon">
-                            <i class="fa-regular fa-circle-check"></i>
-                        </div>
-
-                        <div class="admin-stat-info">
-
-                            <span>
-                                Confirmados
-                            </span>
-
-                            <strong id="confirmedAppointments">
-                                0
-                            </strong>
-
-                            <small>
-                                horários confirmados
-                            </small>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="admin-stat-card">
-
-                        <div class="admin-stat-icon">
-                            <i class="fa-solid fa-calendar-day"></i>
-                        </div>
-
-                        <div class="admin-stat-info">
-
-                            <span>
-                                Hoje
-                            </span>
-
-                            <strong id="todayAppointments">
-                                0
-                            </strong>
-
-                            <small>
-                                atendimentos marcados
-                            </small>
-
-                        </div>
-
-                    </div>
-
+                <div class="admin-welcome-decoration">
+                    <i class="fa-solid fa-sparkles"></i>
                 </div>
 
-
-                <!-- Área inferior -->
-                <div class="admin-dashboard-grid">
+            </div>
 
 
-                    <!-- Próximos agendamentos -->
-                    <div class="admin-panel-card">
+            <!-- Estatísticas -->
 
-                        <div class="admin-panel-header">
+            <div class="admin-stats-grid">
 
-                            <div>
-                                <span class="admin-panel-label">
-                                    AGENDA
-                                </span>
+                <article class="admin-stat-card">
 
-                                <h3>
-                                    Próximos agendamentos
-                                </h3>
-                            </div>
-
-                            <button
-                                type="button"
-                                class="admin-text-button"
-                                data-go-section="agendamentos"
-                            >
-                                Ver todos
-                                <i class="fa-solid fa-arrow-right"></i>
-                            </button>
-
-                        </div>
-
-
-                        <div
-                            class="admin-appointments-preview"
-                            id="dashboardAppointments"
-                        >
-
-                            <div class="admin-empty-state">
-
-                                <div class="admin-empty-icon">
-                                    <i class="fa-regular fa-calendar"></i>
-                                </div>
-
-                                <h4>
-                                    Nenhum agendamento ainda
-                                </h4>
-
-                                <p>
-                                    Quando uma cliente marcar um horário,
-                                    ele aparecerá aqui.
-                                </p>
-
-                            </div>
-
-                        </div>
-
+                    <div class="admin-stat-icon">
+                        <i class="fa-regular fa-calendar"></i>
                     </div>
 
+                    <div class="admin-stat-info">
+                        <span>Total de agendamentos</span>
 
-                    <!-- Acesso rápido -->
-                    <div class="admin-panel-card">
-
-                        <div class="admin-panel-header">
-
-                            <div>
-                                <span class="admin-panel-label">
-                                    ACESSO RÁPIDO
-                                </span>
-
-                                <h3>
-                                    Atalhos
-                                </h3>
-                            </div>
-
-                        </div>
-
-
-                        <div class="admin-quick-actions">
-
-                            <button
-                                type="button"
-                                class="admin-quick-action"
-                                data-go-section="agendamentos"
-                            >
-                                <span>
-                                    <i class="fa-regular fa-calendar-check"></i>
-                                </span>
-
-                                <div>
-                                    <strong>
-                                        Ver agendamentos
-                                    </strong>
-
-                                    <small>
-                                        Gerencie seus horários
-                                    </small>
-                                </div>
-
-                                <i class="fa-solid fa-chevron-right"></i>
-                            </button>
-
-
-                            <button
-                                type="button"
-                                class="admin-quick-action"
-                                data-go-section="horarios"
-                            >
-                                <span>
-                                    <i class="fa-regular fa-clock"></i>
-                                </span>
-
-                                <div>
-                                    <strong>
-                                        Organizar horários
-                                    </strong>
-
-                                    <small>
-                                        Defina sua disponibilidade
-                                    </small>
-                                </div>
-
-                                <i class="fa-solid fa-chevron-right"></i>
-                            </button>
-
-
-                            <button
-                                type="button"
-                                class="admin-quick-action"
-                                data-go-section="galeria"
-                            >
-                                <span>
-                                    <i class="fa-regular fa-images"></i>
-                                </span>
-
-                                <div>
-                                    <strong>
-                                        Atualizar galeria
-                                    </strong>
-
-                                    <small>
-                                        Adicione novos trabalhos
-                                    </small>
-                                </div>
-
-                                <i class="fa-solid fa-chevron-right"></i>
-                            </button>
-
-
-                            <button
-                                type="button"
-                                class="admin-quick-action"
-                                data-go-section="servicos"
-                            >
-                                <span>
-                                    <i class="fa-solid fa-wand-magic-sparkles"></i>
-                                </span>
-
-                                <div>
-                                    <strong>
-                                        Editar serviços
-                                    </strong>
-
-                                    <small>
-                                        Gerencie seus procedimentos
-                                    </small>
-                                </div>
-
-                                <i class="fa-solid fa-chevron-right"></i>
-                            </button>
-
-                        </div>
-
+                        <strong data-stat="total">
+                            0
+                        </strong>
                     </div>
 
-                </div>
-
-            </section>
+                </article>
 
 
-            <!-- =================================================
-                 AGENDAMENTOS
-                 ================================================= -->
+                <article class="admin-stat-card">
 
-            <section
-                class="admin-section"
-                id="section-agendamentos"
-            >
-
-                <div class="admin-section-heading">
-
-                    <div>
-                        <span class="admin-panel-label">
-                            AGENDA
-                        </span>
-
-                        <h2>
-                            Agendamentos
-                        </h2>
-
-                        <p>
-                            Visualize e gerencie os horários
-                            solicitados pelas clientes.
-                        </p>
+                    <div class="admin-stat-icon pending">
+                        <i class="fa-regular fa-clock"></i>
                     </div>
 
-                    <button
-                        type="button"
-                        class="admin-refresh-button"
-                        id="refreshAppointments"
-                    >
-                        <i class="fa-solid fa-rotate"></i>
-                        Atualizar
-                    </button>
+                    <div class="admin-stat-info">
+                        <span>Aguardando confirmação</span>
 
-                </div>
-
-
-                <!-- Filtros -->
-                <div class="admin-filter-card">
-
-                    <div class="admin-filter-group">
-
-                        <label for="appointmentStatusFilter">
-                            Status
-                        </label>
-
-                        <select
-                            id="appointmentStatusFilter"
-                            class="admin-select"
-                        >
-                            <option value="all">
-                                Todos
-                            </option>
-
-                            <option value="pending">
-                                Pendentes
-                            </option>
-
-                            <option value="confirmed">
-                                Confirmados
-                            </option>
-
-                            <option value="completed">
-                                Concluídos
-                            </option>
-
-                            <option value="cancelled">
-                                Cancelados
-                            </option>
-                        </select>
-
+                        <strong data-stat="pending">
+                            0
+                        </strong>
                     </div>
 
+                </article>
 
-                    <div class="admin-filter-group">
 
-                        <label for="appointmentDateFilter">
-                            Data
-                        </label>
+                <article class="admin-stat-card">
 
-                        <input
-                            type="date"
-                            id="appointmentDateFilter"
-                            class="admin-input"
-                        >
-
+                    <div class="admin-stat-icon confirmed">
+                        <i class="fa-solid fa-check"></i>
                     </div>
 
+                    <div class="admin-stat-info">
+                        <span>Confirmados</span>
 
-                    <div class="admin-filter-group admin-filter-search">
-
-                        <label for="appointmentSearch">
-                            Buscar cliente
-                        </label>
-
-                        <div class="admin-search-input">
-
-                            <i class="fa-solid fa-magnifying-glass"></i>
-
-                            <input
-                                type="search"
-                                id="appointmentSearch"
-                                placeholder="Nome ou WhatsApp..."
-                                autocomplete="off"
-                            >
-
-                        </div>
-
+                        <strong data-stat="confirmed">
+                            0
+                        </strong>
                     </div>
 
-
-                    <button
-                        type="button"
-                        class="admin-clear-filter"
-                        id="clearAppointmentFilters"
-                    >
-                        Limpar filtros
-                    </button>
-
-                </div>
+                </article>
 
 
-                <!-- Lista -->
-                <div class="admin-panel-card admin-appointments-card">
+                <article class="admin-stat-card">
 
-                    <div class="admin-table-header">
+                    <div class="admin-stat-icon completed">
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+
+                    <div class="admin-stat-info">
+                        <span>Atendimentos realizados</span>
+
+                        <strong data-stat="completed">
+                            0
+                        </strong>
+                    </div>
+
+                </article>
+
+            </div>
+
+
+            <!-- Próximos agendamentos -->
+
+            <div class="admin-content-grid">
+
+                <section class="admin-panel admin-upcoming-panel">
+
+                    <div class="admin-panel-header">
 
                         <div>
-                            <span class="admin-panel-label">
-                                CLIENTES
+                            <span class="admin-panel-kicker">
+                                Agenda
                             </span>
 
-                            <h3>
-                                Lista de agendamentos
-                            </h3>
+                            <h2>
+                                Próximos atendimentos
+                            </h2>
                         </div>
 
-                        <span
-                            class="admin-result-count"
-                            id="appointmentResultCount"
+                        <button
+                            class="admin-panel-link"
+                            data-section-target="appointments"
+                            type="button"
                         >
-                            0 resultados
-                        </span>
+                            Ver todos
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
 
                     </div>
 
 
                     <div
-                        class="admin-appointments-list"
-                        id="appointmentsList"
+                        class="admin-upcoming-list"
+                        id="upcomingAppointments"
+                        data-upcoming
                     >
 
                         <div class="admin-empty-state">
 
                             <div class="admin-empty-icon">
-                                <i class="fa-regular fa-calendar-xmark"></i>
+                                <i class="fa-regular fa-calendar"></i>
                             </div>
 
-                            <h4>
-                                Nenhum agendamento encontrado
-                            </h4>
+                            <h3>
+                                Nenhum atendimento ainda
+                            </h3>
 
                             <p>
-                                Os agendamentos das clientes aparecerão
-                                nesta área.
+                                Os próximos agendamentos aparecerão aqui.
                             </p>
 
                         </div>
 
                     </div>
 
-                </div>
-
-            </section>
+                </section>
 
 
-            <!-- =================================================
-                 HORÁRIOS
-                 ================================================= -->
+                <!-- Atalhos -->
 
-            <section
-                class="admin-section"
-                id="section-horarios"
-            >
+                <section class="admin-panel admin-shortcuts-panel">
 
-                <div class="admin-section-heading">
+                    <div class="admin-panel-header">
 
-                    <div>
-                        <span class="admin-panel-label">
-                            DISPONIBILIDADE
-                        </span>
-
-                        <h2>
-                            Horários de atendimento
-                        </h2>
-
-                        <p>
-                            Configure os dias e horários em que
-                            você estará disponível.
-                        </p>
-                    </div>
-
-                </div>
-
-
-                <div class="admin-settings-grid">
-
-
-                    <div class="admin-panel-card">
-
-                        <div class="admin-panel-header">
-
-                            <div>
-                                <span class="admin-panel-label">
-                                    SEMANA
-                                </span>
-
-                                <h3>
-                                    Dias de atendimento
-                                </h3>
-                            </div>
-
-                        </div>
-
-
-                        <div class="admin-week-days">
-
-                            <label class="admin-day-option">
-                                <input
-                                    type="checkbox"
-                                    value="1"
-                                    checked
-                                    data-weekday="1"
-                                >
-                                <span>Segunda-feira</span>
-                            </label>
-
-                            <label class="admin-day-option">
-                                <input
-                                    type="checkbox"
-                                    value="2"
-                                    checked
-                                    data-weekday="2"
-                                >
-                                <span>Terça-feira</span>
-                            </label>
-
-                            <label class="admin-day-option">
-                                <input
-                                    type="checkbox"
-                                    value="3"
-                                    checked
-                                    data-weekday="3"
-                                >
-                                <span>Quarta-feira</span>
-                            </label>
-
-                            <label class="admin-day-option">
-                                <input
-                                    type="checkbox"
-                                    value="4"
-                                    checked
-                                    data-weekday="4"
-                                >
-                                <span>Quinta-feira</span>
-                            </label>
-
-                            <label class="admin-day-option">
-                                <input
-                                    type="checkbox"
-                                    value="5"
-                                    checked
-                                    data-weekday="5"
-                                >
-                                <span>Sexta-feira</span>
-                            </label>
-
-                            <label class="admin-day-option disabled">
-                                <input
-                                    type="checkbox"
-                                    value="6"
-                                    data-weekday="6"
-                                >
-                                <span>Sábado</span>
-                            </label>
-
-                            <label class="admin-day-option disabled">
-                                <input
-                                    type="checkbox"
-                                    value="0"
-                                    data-weekday="0"
-                                >
-                                <span>Domingo</span>
-                            </label>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="admin-panel-card">
-
-                        <div class="admin-panel-header">
-
-                            <div>
-                                <span class="admin-panel-label">
-                                    HORÁRIO
-                                </span>
-
-                                <h3>
-                                    Expediente padrão
-                                </h3>
-                            </div>
-
-                        </div>
-
-
-                        <div class="admin-time-settings">
-
-                            <div class="admin-time-field">
-
-                                <label for="openingTime">
-                                    Início
-                                </label>
-
-                                <input
-                                    type="time"
-                                    id="openingTime"
-                                    class="admin-input"
-                                    value="09:00"
-                                >
-
-                            </div>
-
-
-                            <div class="admin-time-divider">
-                                até
-                            </div>
-
-
-                            <div class="admin-time-field">
-
-                                <label for="closingTime">
-                                    Encerramento
-                                </label>
-
-                                <input
-                                    type="time"
-                                    id="closingTime"
-                                    class="admin-input"
-                                    value="18:00"
-                                >
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="admin-setting-hint">
-
-                            <i class="fa-solid fa-circle-info"></i>
-
-                            <span>
-                                Os horários disponíveis para as clientes
-                                serão gerados dentro deste período.
+                        <div>
+                            <span class="admin-panel-kicker">
+                                Acesso rápido
                             </span>
 
+                            <h2>
+                                Atalhos
+                            </h2>
                         </div>
+
+                    </div>
+
+
+                    <div class="admin-shortcuts">
+
+                        <button
+                            class="admin-shortcut"
+                            data-section-target="appointments"
+                            type="button"
+                        >
+                            <span class="admin-shortcut-icon">
+                                <i class="fa-regular fa-calendar-plus"></i>
+                            </span>
+
+                            <span>
+                                <strong>
+                                    Agendamentos
+                                </strong>
+
+                                <small>
+                                    Gerenciar horários
+                                </small>
+                            </span>
+
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
 
 
                         <button
+                            class="admin-shortcut"
+                            data-section-target="clients"
                             type="button"
-                            class="admin-primary-button"
-                            id="saveScheduleButton"
                         >
-                            <i class="fa-solid fa-check"></i>
-                            Salvar horários
+                            <span class="admin-shortcut-icon">
+                                <i class="fa-solid fa-user-group"></i>
+                            </span>
+
+                            <span>
+                                <strong>
+                                    Clientes
+                                </strong>
+
+                                <small>
+                                    Ver informações
+                                </small>
+                            </span>
+
+                            <i class="fa-solid fa-chevron-right"></i>
                         </button>
+
+
+                        <button
+                            class="admin-shortcut"
+                            data-section-target="gallery"
+                            type="button"
+                        >
+                            <span class="admin-shortcut-icon">
+                                <i class="fa-regular fa-images"></i>
+                            </span>
+
+                            <span>
+                                <strong>
+                                    Galeria
+                                </strong>
+
+                                <small>
+                                    Gerenciar fotos
+                                </small>
+                            </span>
+
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             AGENDAMENTOS
+        ================================================== -->
+
+        <section
+            class="admin-section"
+            data-section-content="appointments"
+            id="appointmentsSection"
+        >
+
+            <div class="admin-section-top">
+
+                <div>
+                    <span class="admin-panel-kicker">
+                        Gestão
+                    </span>
+
+                    <h2>
+                        Todos os agendamentos
+                    </h2>
+
+                    <p>
+                        Visualize e organize as solicitações das clientes.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <!-- Filtros -->
+
+            <div class="admin-filters">
+
+                <div class="admin-filter">
+
+                    <label for="appointmentDateFilter">
+                        Data
+                    </label>
+
+                    <input
+                        type="date"
+                        id="appointmentDateFilter"
+                    >
+
+                </div>
+
+
+                <div class="admin-filter">
+
+                    <label for="appointmentStatusFilter">
+                        Status
+                    </label>
+
+                    <select id="appointmentStatusFilter">
+
+                        <option value="">
+                            Todos os status
+                        </option>
+
+                        <option value="pending">
+                            Aguardando
+                        </option>
+
+                        <option value="confirmed">
+                            Confirmado
+                        </option>
+
+                        <option value="completed">
+                            Realizado
+                        </option>
+
+                        <option value="cancelled">
+                            Cancelado
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="admin-filter admin-filter-search">
+
+                    <label for="appointmentSearch">
+                        Buscar
+                    </label>
+
+                    <div class="admin-search-input">
+
+                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                        <input
+                            type="search"
+                            id="appointmentSearch"
+                            placeholder="Nome ou WhatsApp..."
+                        >
 
                     </div>
 
                 </div>
 
-            </section>
+
+                <button
+                    class="admin-clear-filters"
+                    id="clearAppointmentFilters"
+                    type="button"
+                >
+                    Limpar filtros
+                </button>
+
+            </div>
 
 
-            <!-- =================================================
-                 GALERIA
-                 ================================================= -->
+            <!-- Lista -->
 
-            <section
-                class="admin-section"
-                id="section-galeria"
-            >
+            <div class="admin-panel admin-appointments-panel">
 
-                <div class="admin-section-heading">
+                <div class="admin-table-header">
 
                     <div>
-                        <span class="admin-panel-label">
-                            PORTFÓLIO
+                        <strong>
+                            Agendamentos
+                        </strong>
+
+                        <span id="appointmentResultsCount">
+                            0 resultados
                         </span>
-
-                        <h2>
-                            Galeria de trabalhos
-                        </h2>
-
-                        <p>
-                            Organize as fotos que serão exibidas
-                            no site.
-                        </p>
                     </div>
-
-
-                    <button
-                        type="button"
-                        class="admin-primary-button"
-                        id="addGalleryButton"
-                    >
-                        <i class="fa-solid fa-plus"></i>
-                        Adicionar foto
-                    </button>
 
                 </div>
 
 
                 <div
-                    class="admin-gallery-grid"
-                    id="adminGalleryGrid"
+                    class="admin-appointments-list"
+                    id="appointmentsList"
+                    data-appointments-list
                 >
 
-                    <div class="admin-empty-state admin-gallery-empty">
+                    <div class="admin-empty-state">
 
                         <div class="admin-empty-icon">
-                            <i class="fa-regular fa-images"></i>
+                            <i class="fa-regular fa-calendar-xmark"></i>
                         </div>
 
-                        <h4>
-                            Sua galeria está vazia
-                        </h4>
+                        <h3>
+                            Nenhum agendamento encontrado
+                        </h3>
 
                         <p>
-                            Adicione fotos dos seus trabalhos para
-                            deixar o site ainda mais bonito.
+                            Quando uma cliente solicitar um horário,
+                            ele aparecerá aqui.
                         </p>
-
-                        <button
-                            type="button"
-                            class="admin-secondary-button"
-                            id="addGalleryEmptyButton"
-                        >
-                            <i class="fa-solid fa-plus"></i>
-                            Adicionar primeira foto
-                        </button>
 
                     </div>
 
                 </div>
 
-            </section>
+            </div>
+
+        </section>
 
 
-            <!-- =================================================
-                 SERVIÇOS
-                 ================================================= -->
+        <!-- =================================================
+             CLIENTES
+        ================================================== -->
 
-            <section
-                class="admin-section"
-                id="section-servicos"
-            >
+        <section
+            class="admin-section"
+            data-section-content="clients"
+            id="clientsSection"
+        >
 
-                <div class="admin-section-heading">
+            <div class="admin-section-top">
+
+                <div>
+                    <span class="admin-panel-kicker">
+                        Relacionamento
+                    </span>
+
+                    <h2>
+                        Clientes
+                    </h2>
+
+                    <p>
+                        Informações das clientes que realizaram agendamentos.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="admin-panel">
+
+                <div class="admin-coming-soon">
+
+                    <div class="admin-coming-soon-icon">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+
+                    <h3>
+                        Área de clientes
+                    </h3>
+
+                    <p>
+                        A organização automática das clientes será
+                        integrada aos agendamentos do Firebase.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             SERVIÇOS
+        ================================================== -->
+
+        <section
+            class="admin-section"
+            data-section-content="services"
+            id="servicesSection"
+        >
+
+            <div class="admin-section-top">
+
+                <div>
+                    <span class="admin-panel-kicker">
+                        Seu negócio
+                    </span>
+
+                    <h2>
+                        Serviços
+                    </h2>
+
+                    <p>
+                        Serviços oferecidos pela Samira Beauty.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="admin-service-grid">
+
+                <article class="admin-service-card">
+
+                    <div class="admin-service-icon">
+                        <i class="fa-regular fa-eye"></i>
+                    </div>
 
                     <div>
-                        <span class="admin-panel-label">
-                            PROCEDIMENTOS
-                        </span>
-
-                        <h2>
-                            Serviços
-                        </h2>
-
-                        <p>
-                            Gerencie os procedimentos disponíveis
-                            para agendamento.
-                        </p>
-                    </div>
-
-
-                    <button
-                        type="button"
-                        class="admin-primary-button"
-                        id="addServiceButton"
-                    >
-                        <i class="fa-solid fa-plus"></i>
-                        Novo serviço
-                    </button>
-
-                </div>
-
-
-                <div
-                    class="admin-services-grid"
-                    id="adminServicesGrid"
-                >
-
-                    <article class="admin-service-card">
-
-                        <div class="admin-service-card-top">
-
-                            <div class="admin-service-icon">
-                                <i class="fa-regular fa-eye"></i>
-                            </div>
-
-                            <button
-                                type="button"
-                                class="admin-icon-button"
-                                title="Editar serviço"
-                                data-edit-service
-                            >
-                                <i class="fa-solid fa-pen"></i>
-                            </button>
-
-                        </div>
-
                         <h3>
                             Extensão de Cílios
                         </h3>
 
                         <p>
-                            Alongamento e realce dos cílios
-                            para um olhar marcante.
+                            Olhar marcante e personalizado.
                         </p>
+                    </div>
 
-                        <div class="admin-service-details">
+                    <span class="admin-service-status">
+                        Ativo
+                    </span>
 
-                            <span>
-                                <i class="fa-regular fa-clock"></i>
-                                1h
-                            </span>
-
-                            <span>
-                                <i class="fa-solid fa-circle"></i>
-                                Ativo
-                            </span>
-
-                        </div>
-
-                    </article>
+                </article>
 
 
-                    <article class="admin-service-card">
+                <article class="admin-service-card">
 
-                        <div class="admin-service-card-top">
+                    <div class="admin-service-icon">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
 
-                            <div class="admin-service-icon">
-                                <i class="fa-solid fa-wand-magic-sparkles"></i>
-                            </div>
-
-                            <button
-                                type="button"
-                                class="admin-icon-button"
-                                title="Editar serviço"
-                                data-edit-service
-                            >
-                                <i class="fa-solid fa-pen"></i>
-                            </button>
-
-                        </div>
-
+                    <div>
                         <h3>
                             Design de Sobrancelhas
                         </h3>
 
                         <p>
-                            Modelagem personalizada para
-                            valorizar o olhar.
+                            Design pensado para valorizar o rosto.
                         </p>
+                    </div>
 
-                        <div class="admin-service-details">
+                    <span class="admin-service-status">
+                        Ativo
+                    </span>
 
-                            <span>
-                                <i class="fa-regular fa-clock"></i>
-                                1h
-                            </span>
-
-                            <span>
-                                <i class="fa-solid fa-circle"></i>
-                                Ativo
-                            </span>
-
-                        </div>
-
-                    </article>
+                </article>
 
 
-                    <article class="admin-service-card">
+                <article class="admin-service-card">
 
-                        <div class="admin-service-card-top">
+                    <div class="admin-service-icon">
+                        <i class="fa-solid fa-star"></i>
+                    </div>
 
-                            <div class="admin-service-icon">
-                                <i class="fa-solid fa-star"></i>
-                            </div>
-
-                            <button
-                                type="button"
-                                class="admin-icon-button"
-                                title="Editar serviço"
-                                data-edit-service
-                            >
-                                <i class="fa-solid fa-pen"></i>
-                            </button>
-
-                        </div>
-
+                    <div>
                         <h3>
                             Lash Lifting
                         </h3>
 
                         <p>
-                            Curvatura dos cílios naturais
-                            com acabamento delicado.
-                        </p>
-
-                        <div class="admin-service-details">
-
-                            <span>
-                                <i class="fa-regular fa-clock"></i>
-                                1h
-                            </span>
-
-                            <span>
-                                <i class="fa-solid fa-circle"></i>
-                                Ativo
-                            </span>
-
-                        </div>
-
-                    </article>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 CONFIGURAÇÕES
-                 ================================================= -->
-
-            <section
-                class="admin-section"
-                id="section-configuracoes"
-            >
-
-                <div class="admin-section-heading">
-
-                    <div>
-                        <span class="admin-panel-label">
-                            SISTEMA
-                        </span>
-
-                        <h2>
-                            Configurações
-                        </h2>
-
-                        <p>
-                            Informações e preferências do seu
-                            espaço de atendimento.
+                            Curvatura e destaque para os cílios.
                         </p>
                     </div>
 
-                </div>
+                    <span class="admin-service-status">
+                        Ativo
+                    </span>
 
+                </article>
 
-                <div class="admin-settings-grid">
+            </div>
 
+        </section>
 
-                    <!-- Conta -->
-                    <div class="admin-panel-card">
 
-                        <div class="admin-panel-header">
+        <!-- =================================================
+             GALERIA
+        ================================================== -->
 
-                            <div>
-                                <span class="admin-panel-label">
-                                    CONTA
-                                </span>
-
-                                <h3>
-                                    Conta administrativa
-                                </h3>
-                            </div>
-
-                            <div class="admin-panel-header-icon">
-                                <i class="fa-solid fa-user-shield"></i>
-                            </div>
-
-                        </div>
-
-
-                        <div class="admin-account-info">
-
-                            <div class="admin-account-row">
-
-                                <span>
-                                    Nome
-                                </span>
-
-                                <strong id="settingsAdminName">
-                                    Samira
-                                </strong>
-
-                            </div>
-
-
-                            <div class="admin-account-row">
-
-                                <span>
-                                    E-mail
-                                </span>
-
-                                <strong id="settingsAdminEmail">
-                                    —
-                                </strong>
-
-                            </div>
-
-
-                            <div class="admin-account-row">
-
-                                <span>
-                                    Acesso
-                                </span>
-
-                                <strong>
-                                    Administradora
-                                </strong>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- Site -->
-                    <div class="admin-panel-card">
-
-                        <div class="admin-panel-header">
-
-                            <div>
-                                <span class="admin-panel-label">
-                                    SITE
-                                </span>
-
-                                <h3>
-                                    Status do site
-                                </h3>
-                            </div>
-
-                            <div class="admin-panel-header-icon">
-                                <i class="fa-solid fa-globe"></i>
-                            </div>
-
-                        </div>
-
-
-                        <div class="admin-status-box">
-
-                            <div class="admin-status-large">
-                                <span class="status-dot"></span>
-
-                                <div>
-                                    <strong>
-                                        Site funcionando
-                                    </strong>
-
-                                    <small>
-                                        Samira Beauty está online
-                                    </small>
-                                </div>
-                            </div>
-
-
-                            <a
-                                href="index.html"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="admin-secondary-button"
-                            >
-                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                Abrir site
-                            </a>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- Segurança -->
-                    <div class="admin-panel-card">
-
-                        <div class="admin-panel-header">
-
-                            <div>
-                                <span class="admin-panel-label">
-                                    SEGURANÇA
-                                </span>
-
-                                <h3>
-                                    Acesso protegido
-                                </h3>
-                            </div>
-
-                            <div class="admin-panel-header-icon">
-                                <i class="fa-solid fa-shield-heart"></i>
-                            </div>
-
-                        </div>
-
-
-                        <div class="admin-security-list">
-
-                            <div>
-                                <i class="fa-solid fa-circle-check"></i>
-
-                                <span>
-                                    Login protegido pelo Firebase
-                                </span>
-                            </div>
-
-                            <div>
-                                <i class="fa-solid fa-circle-check"></i>
-
-                                <span>
-                                    Área administrativa privada
-                                </span>
-                            </div>
-
-                            <div>
-                                <i class="fa-solid fa-circle-check"></i>
-
-                                <span>
-                                    Dados separados por serviço
-                                </span>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-        </div>
-
-
-        <!-- =====================================================
-             MODAL DE DETALHES DO AGENDAMENTO
-             ===================================================== -->
-
-        <div
-            class="admin-modal"
-            id="appointmentModal"
-            hidden
+        <section
+            class="admin-section"
+            data-section-content="gallery"
+            id="gallerySection"
         >
 
-            <div
-                class="admin-modal-overlay"
-                data-close-modal
-            ></div>
+            <div class="admin-section-top">
 
-            <div class="admin-modal-box">
+                <div>
+                    <span class="admin-panel-kicker">
+                        Portfólio visual
+                    </span>
 
-                <div class="admin-modal-header">
+                    <h2>
+                        Galeria
+                    </h2>
 
-                    <div>
+                    <p>
+                        Área reservada para gerenciamento das fotos.
+                    </p>
+                </div>
 
-                        <span class="admin-panel-label">
-                            AGENDAMENTO
-                        </span>
+            </div>
 
-                        <h3>
-                            Detalhes da cliente
-                        </h3>
 
+            <div class="admin-panel">
+
+                <div class="admin-coming-soon">
+
+                    <div class="admin-coming-soon-icon">
+                        <i class="fa-regular fa-images"></i>
                     </div>
 
-                    <button
-                        type="button"
-                        class="admin-modal-close"
-                        data-close-modal
-                        aria-label="Fechar"
-                    >
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
+                    <h3>
+                        Gerenciamento da galeria
+                    </h3>
 
-                </div>
-
-
-                <div
-                    class="admin-modal-body"
-                    id="appointmentModalBody"
-                >
-                    <!-- Preenchido pelo JavaScript -->
-                </div>
-
-
-                <div class="admin-modal-footer">
-
-                    <button
-                        type="button"
-                        class="admin-secondary-button"
-                        data-close-modal
-                    >
-                        Fechar
-                    </button>
-
-                    <button
-                        type="button"
-                        class="admin-primary-button"
-                        id="confirmAppointmentModalButton"
-                    >
-                        <i class="fa-solid fa-check"></i>
-                        Confirmar agendamento
-                    </button>
+                    <p>
+                        Em breve você poderá adicionar e organizar
+                        as fotos diretamente pelo painel.
+                    </p>
 
                 </div>
 
             </div>
 
-        </div>
-
-
-        <!-- =====================================================
-             TOAST
-             ===================================================== -->
-
-        <div
-            class="admin-toast"
-            id="adminToast"
-            hidden
-        >
-
-            <div class="admin-toast-icon">
-                <i class="fa-solid fa-check"></i>
-            </div>
-
-            <div class="admin-toast-content">
-
-                <strong id="adminToastTitle">
-                    Tudo certo!
-                </strong>
-
-                <span id="adminToastMessage">
-                    Alteração salva com sucesso.
-                </span>
-
-            </div>
-
-            <button
-                type="button"
-                class="admin-toast-close"
-                id="adminToastClose"
-                aria-label="Fechar mensagem"
-            >
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-
-        </div>
+        </section>
 
     </main>
 
 
     <!-- =====================================================
+         MODAL DE AGENDAMENTO
+    ====================================================== -->
+
+    <div
+        class="admin-modal"
+        id="appointmentModal"
+        aria-hidden="true"
+    >
+
+        <div class="admin-modal-overlay"></div>
+
+        <div
+            class="admin-modal-content"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="appointmentModalTitle"
+        >
+
+            <button
+                class="admin-modal-close"
+                type="button"
+                aria-label="Fechar"
+            >
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+
+            <div class="admin-modal-header">
+
+                <div class="admin-modal-icon">
+                    <i class="fa-regular fa-calendar-check"></i>
+                </div>
+
+                <div>
+                    <span>
+                        Detalhes
+                    </span>
+
+                    <h2 id="appointmentModalTitle">
+                        Agendamento
+                    </h2>
+                </div>
+
+            </div>
+
+
+            <div
+                class="admin-modal-body"
+                id="appointmentModalBody"
+            ></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         TOAST
+    ====================================================== -->
+
+    <div
+        class="admin-toast"
+        id="adminToast"
+        role="status"
+        aria-live="polite"
+    >
+
+        <i class="fa-solid fa-circle-check"></i>
+
+        <span id="adminToastMessage">
+            Alteração realizada.
+        </span>
+
+    </div>
+
+
+    <!-- =====================================================
          FIREBASE
-         ===================================================== -->
+    ====================================================== -->
 
-    <script
-        src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"
-    ></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 
-    <script
-        src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"
-    ></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 
-    <script
-        src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"
-    ></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
-    <script
-        src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"
-    ></script>
-
-
-    <!-- Firebase -->
     <script src="js/firebase.js"></script>
 
-    <!-- JavaScript administrativo -->
+
+    <!-- =====================================================
+         ADMIN
+    ====================================================== -->
+
     <script src="js/admin.js"></script>
 
 </body>
