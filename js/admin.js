@@ -1,176 +1,429 @@
 /* =========================================================
-   SAMIRA BEAUTY — ADMIN.JS
-   Painel administrativo
-   ========================================================= */
+   SAMIRA BEAUTY — PAINEL ADMINISTRATIVO
+   Firebase Authentication + Firestore
+========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
 
     /* =====================================================
        ELEMENTOS PRINCIPAIS
-       ===================================================== */
+    ===================================================== */
 
-    const sidebar = document.querySelector(".admin-sidebar");
-    const sidebarOverlay = document.querySelector(".admin-sidebar-overlay");
-    const menuButton = document.querySelector(".admin-menu-button");
-    const closeSidebarButton = document.querySelector(".admin-sidebar-close");
+    const loader =
+        document.getElementById("adminPageLoader");
 
-    const navItems = document.querySelectorAll(".admin-nav-item");
-    const sections = document.querySelectorAll(".admin-section");
+    const sidebar =
+        document.getElementById("adminSidebar");
 
-    const logoutButton = document.querySelector(".admin-logout-button");
+    const sidebarOverlay =
+        document.getElementById("adminSidebarOverlay");
 
-    const pageLoader = document.querySelector(".admin-page-loader");
+    const menuButton =
+        document.getElementById("adminMenuButton");
+
+    const sidebarClose =
+        document.getElementById("adminSidebarClose");
+
+    const logoutButton =
+        document.getElementById("adminLogoutButton");
+
+    const refreshButton =
+        document.getElementById("adminRefreshButton");
+
+    const pageTitle =
+        document.getElementById("adminPageTitle");
+
+    const pageSubtitle =
+        document.getElementById("adminPageSubtitle");
+
+    const adminUserName =
+        document.getElementById("adminUserName");
+
+    const adminUserEmail =
+        document.getElementById("adminUserEmail");
+
+    const pendingBadge =
+        document.getElementById("pendingAppointmentsBadge");
+
+    const appointmentsList =
+        document.getElementById("appointmentsList");
+
+    const upcomingAppointments =
+        document.getElementById("upcomingAppointments");
+
+    const appointmentResultsCount =
+        document.getElementById("appointmentResultsCount");
+
+    const dateFilter =
+        document.getElementById("appointmentDateFilter");
+
+    const statusFilter =
+        document.getElementById("appointmentStatusFilter");
+
+    const searchInput =
+        document.getElementById("appointmentSearch");
+
+    const clearFiltersButton =
+        document.getElementById("clearAppointmentFilters");
+
+    const appointmentModal =
+        document.getElementById("appointmentModal");
+
+    const appointmentModalBody =
+        document.getElementById("appointmentModalBody");
+
+    const modalClose =
+        document.querySelector(".admin-modal-close");
+
+    const modalOverlay =
+        document.querySelector(".admin-modal-overlay");
+
+    const toast =
+        document.getElementById("adminToast");
+
+    const toastMessage =
+        document.getElementById("adminToastMessage");
+
 
     /* =====================================================
        FIREBASE
-       ===================================================== */
+    ===================================================== */
 
-    const firebaseData = window.samiraFirebase || {};
+    const firebaseServices =
+        window.samiraFirebase || {};
 
-    const db = firebaseData.db || null;
-    const auth = firebaseData.auth || null;
+    const auth =
+        firebaseServices.auth || null;
 
-    let currentUser = null;
+    const db =
+        firebaseServices.db || null;
+
+
     let appointments = [];
+    let currentUser = null;
+
+
+    /* =====================================================
+       ESCAPAR HTML
+    ===================================================== */
+
+    function escapeHTML(value) {
+
+        if (
+            value === null ||
+            value === undefined
+        ) {
+            return "";
+        }
+
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
 
     /* =====================================================
        LOADER
-       ===================================================== */
+    ===================================================== */
 
     function hideLoader() {
-        if (!pageLoader) return;
+
+        if (!loader) {
+            return;
+        }
+
+        loader.classList.add("hidden");
 
         setTimeout(() => {
-            pageLoader.classList.add("hidden");
-        }, 300);
+
+            loader.style.display =
+                "none";
+
+        }, 450);
+
     }
+
+
+    /* =====================================================
+       TOAST
+    ===================================================== */
+
+    function showToast(message) {
+
+        if (
+            !toast ||
+            !toastMessage
+        ) {
+            return;
+        }
+
+        toastMessage.textContent =
+            message;
+
+        toast.classList.add("show");
+
+
+        clearTimeout(
+            window.samiraToastTimer
+        );
+
+
+        window.samiraToastTimer =
+            setTimeout(() => {
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            }, 3500);
+
+    }
+
 
     /* =====================================================
        SIDEBAR MOBILE
-       ===================================================== */
+    ===================================================== */
 
     function openSidebar() {
+
         if (sidebar) {
             sidebar.classList.add("open");
         }
 
         if (sidebarOverlay) {
-            sidebarOverlay.classList.add("active");
+            sidebarOverlay.classList.add(
+                "active"
+            );
         }
 
-        document.body.style.overflow = "hidden";
+        document.body.style.overflow =
+            "hidden";
+
     }
 
+
     function closeSidebar() {
+
         if (sidebar) {
             sidebar.classList.remove("open");
         }
 
         if (sidebarOverlay) {
-            sidebarOverlay.classList.remove("active");
+            sidebarOverlay.classList.remove(
+                "active"
+            );
         }
 
-        document.body.style.overflow = "";
+        document.body.style.overflow =
+            "";
+
     }
+
 
     if (menuButton) {
-        menuButton.addEventListener("click", openSidebar);
-    }
 
-    if (closeSidebarButton) {
-        closeSidebarButton.addEventListener("click", closeSidebar);
-    }
-
-    if (sidebarOverlay) {
-        sidebarOverlay.addEventListener("click", closeSidebar);
-    }
-
-    /* =====================================================
-       NAVEGAÇÃO DO PAINEL
-       ===================================================== */
-
-    function showSection(sectionId) {
-
-        sections.forEach(section => {
-            section.classList.remove("active");
-        });
-
-        navItems.forEach(item => {
-            item.classList.remove("active");
-        });
-
-        const targetSection = document.getElementById(sectionId);
-
-        if (targetSection) {
-            targetSection.classList.add("active");
-        }
-
-        const activeNav = document.querySelector(
-            `.admin-nav-item[data-section="${sectionId}"]`
+        menuButton.addEventListener(
+            "click",
+            openSidebar
         );
 
-        if (activeNav) {
-            activeNav.classList.add("active");
+    }
+
+
+    if (sidebarClose) {
+
+        sidebarClose.addEventListener(
+            "click",
+            closeSidebar
+        );
+
+    }
+
+
+    if (sidebarOverlay) {
+
+        sidebarOverlay.addEventListener(
+            "click",
+            closeSidebar
+        );
+
+    }
+
+
+    /* =====================================================
+       NAVEGAÇÃO
+    ===================================================== */
+
+    const navItems =
+        document.querySelectorAll(
+            ".admin-nav-item"
+        );
+
+    const sections =
+        document.querySelectorAll(
+            "[data-section-content]"
+        );
+
+
+    const pageTexts = {
+
+        dashboard: {
+            title: "Visão geral",
+            subtitle:
+                "Acompanhe seus atendimentos e agendamentos."
+        },
+
+        appointments: {
+            title: "Agendamentos",
+            subtitle:
+                "Gerencie os horários solicitados pelas clientes."
+        },
+
+        clients: {
+            title: "Clientes",
+            subtitle:
+                "Visualize as clientes que realizaram agendamentos."
+        },
+
+        services: {
+            title: "Serviços",
+            subtitle:
+                "Gerencie os procedimentos oferecidos."
+        },
+
+        gallery: {
+            title: "Galeria",
+            subtitle:
+                "Organize as fotos dos seus trabalhos."
         }
 
+    };
+
+
+    function openSection(sectionName) {
+
+        sections.forEach(section => {
+
+            section.classList.remove(
+                "active"
+            );
+
+        });
+
+
+        navItems.forEach(item => {
+
+            item.classList.remove(
+                "active"
+            );
+
+        });
+
+
+        const section =
+            document.querySelector(
+                `[data-section-content="${sectionName}"]`
+            );
+
+
+        const navItem =
+            document.querySelector(
+                `.admin-nav-item[data-section="${sectionName}"]`
+            );
+
+
+        if (section) {
+
+            section.classList.add(
+                "active"
+            );
+
+        }
+
+
+        if (navItem) {
+
+            navItem.classList.add(
+                "active"
+            );
+
+        }
+
+
+        const text =
+            pageTexts[sectionName];
+
+
+        if (text) {
+
+            if (pageTitle) {
+                pageTitle.textContent =
+                    text.title;
+            }
+
+            if (pageSubtitle) {
+                pageSubtitle.textContent =
+                    text.subtitle;
+            }
+
+        }
+
+
         closeSidebar();
+
 
         window.scrollTo({
             top: 0,
             behavior: "smooth"
         });
+
     }
+
 
     navItems.forEach(item => {
 
-        item.addEventListener("click", () => {
+        item.addEventListener(
+            "click",
+            () => {
 
-            const sectionId = item.dataset.section;
+                openSection(
+                    item.dataset.section
+                );
 
-            if (sectionId) {
-                showSection(sectionId);
             }
-
-        });
+        );
 
     });
 
-    /* =====================================================
-       BOTÕES "VER TODOS"
-       ===================================================== */
 
-    document.querySelectorAll("[data-go-section]").forEach(button => {
+    document
+        .querySelectorAll(
+            "[data-section-target]"
+        )
+        .forEach(button => {
 
-        button.addEventListener("click", () => {
+            button.addEventListener(
+                "click",
+                () => {
 
-            const section = button.dataset.goSection;
+                    openSection(
+                        button.dataset
+                            .sectionTarget
+                    );
 
-            if (section) {
-                showSection(section);
-            }
+                }
+            );
 
         });
 
-    });
 
     /* =====================================================
-       DATA ATUAL
-       ===================================================== */
-
-    function getTodayString() {
-
-        const today = new Date();
-
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, "0");
-        const day = String(today.getDate()).padStart(2, "0");
-
-        return `${year}-${month}-${day}`;
-    }
-
-    /* =====================================================
-       FORMATAR DATA
-       ===================================================== */
+       FORMATAÇÃO
+    ===================================================== */
 
     function formatDate(dateString) {
 
@@ -178,323 +431,214 @@ document.addEventListener("DOMContentLoaded", () => {
             return "—";
         }
 
-        const date = new Date(`${dateString}T12:00:00`);
 
-        if (Number.isNaN(date.getTime())) {
-            return dateString;
-        }
+        const [
+            year,
+            month,
+            day
+        ] = dateString.split("-");
 
-        return date.toLocaleDateString("pt-BR", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric"
-        });
+
+        return `${day}/${month}/${year}`;
+
     }
 
-    function formatShortDate(dateString) {
+
+    function getShortDate(dateString) {
 
         if (!dateString) {
+
             return {
                 day: "--",
                 month: "---"
             };
+
         }
 
-        const date = new Date(`${dateString}T12:00:00`);
 
-        if (Number.isNaN(date.getTime())) {
-            return {
-                day: "--",
-                month: "---"
-            };
-        }
-
-        return {
-            day: String(date.getDate()).padStart(2, "0"),
-            month: date.toLocaleDateString("pt-BR", {
-                month: "short"
-            }).replace(".", "")
-        };
-    }
-
-    /* =====================================================
-       TOAST
-       ===================================================== */
-
-    function showToast(title, message, type = "success") {
-
-        const toast = document.querySelector(".admin-toast");
-
-        if (!toast) {
-            return;
-        }
-
-        const icon = toast.querySelector(".admin-toast-icon");
-        const titleElement = toast.querySelector(".admin-toast-content strong");
-        const messageElement = toast.querySelector(".admin-toast-content span");
-
-        if (titleElement) {
-            titleElement.textContent = title;
-        }
-
-        if (messageElement) {
-            messageElement.textContent = message;
-        }
-
-        if (icon) {
-
-            icon.className = "admin-toast-icon";
-
-            if (type === "error") {
-                icon.style.background = "var(--danger-bg)";
-                icon.style.color = "var(--danger)";
-                icon.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i>';
-            } else if (type === "warning") {
-                icon.style.background = "var(--warning-bg)";
-                icon.style.color = "var(--warning)";
-                icon.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
-            } else {
-                icon.style.background = "var(--success-bg)";
-                icon.style.color = "var(--success)";
-                icon.innerHTML = '<i class="fa-solid fa-check"></i>';
-            }
-        }
-
-        toast.hidden = false;
-
-        clearTimeout(window.adminToastTimer);
-
-        window.adminToastTimer = setTimeout(() => {
-            toast.hidden = true;
-        }, 4500);
-    }
-
-    const toastClose = document.querySelector(".admin-toast-close");
-
-    if (toastClose) {
-
-        toastClose.addEventListener("click", () => {
-
-            const toast = document.querySelector(".admin-toast");
-
-            if (toast) {
-                toast.hidden = true;
-            }
-
-        });
-
-    }
-
-    /* =====================================================
-       USUÁRIO LOGADO
-       ===================================================== */
-
-    function updateUserInterface(user) {
-
-        if (!user) {
-            return;
-        }
-
-        const emailElements = document.querySelectorAll(
-            "[data-admin-email], .admin-user-info span"
-        );
-
-        emailElements.forEach(element => {
-            element.textContent = user.email || "Conta administrativa";
-        });
-
-        const nameElements = document.querySelectorAll(
-            "[data-admin-name], .admin-user-info strong"
-        );
-
-        nameElements.forEach(element => {
-
-            if (
-                user.displayName &&
-                user.displayName.trim()
-            ) {
-                element.textContent = user.displayName;
-            } else {
-                element.textContent = "Samira";
-            }
-
-        });
-    }
-
-    /* =====================================================
-       PROTEÇÃO DA ÁREA ADMIN
-       ===================================================== */
-
-    function checkAuthentication() {
-
-        if (!auth) {
-
-            console.warn(
-                "Firebase Auth ainda não está configurado."
+        const date =
+            new Date(
+                `${dateString}T12:00:00`
             );
 
-            hideLoader();
-
-            return;
-        }
-
-        auth.onAuthStateChanged(user => {
-
-            if (!user) {
-
-                window.location.href = "admin-login.html";
-
-                return;
-            }
-
-            currentUser = user;
-
-            updateUserInterface(user);
-
-            hideLoader();
-
-            loadAppointments();
-
-        });
-
-    }
-
-    /* =====================================================
-       LOGOUT
-       ===================================================== */
-
-    if (logoutButton) {
-
-        logoutButton.addEventListener("click", async () => {
-
-            if (!auth) {
-                window.location.href = "admin-login.html";
-                return;
-            }
-
-            const confirmed = window.confirm(
-                "Deseja realmente sair da área administrativa?"
-            );
-
-            if (!confirmed) {
-                return;
-            }
-
-            try {
-
-                await auth.signOut();
-
-                window.location.href = "admin-login.html";
-
-            } catch (error) {
-
-                console.error("Erro ao sair:", error);
-
-                showToast(
-                    "Não foi possível sair",
-                    "Tente novamente.",
-                    "error"
-                );
-
-            }
-
-        });
-
-    }
-
-    /* =====================================================
-       CONVERTER DADOS DO FIRESTORE
-       ===================================================== */
-
-    function normalizeAppointment(doc) {
-
-        const data = doc.data ? doc.data() : doc;
 
         return {
-            id: doc.id || data.id || "",
-            clientName:
-                data.clientName ||
-                data.name ||
-                data.nome ||
-                "Cliente",
 
-            phone:
-                data.phone ||
-                data.whatsapp ||
-                data.clientPhone ||
-                "",
+            day:
+                String(
+                    date.getDate()
+                ).padStart(2, "0"),
 
-            service:
-                data.service ||
-                data.servico ||
-                "Serviço",
+            month:
+                date
+                    .toLocaleDateString(
+                        "pt-BR",
+                        {
+                            month: "short"
+                        }
+                    )
+                    .replace(".", "")
+                    .toUpperCase()
 
-            date:
-                data.date ||
-                data.data ||
-                "",
-
-            time:
-                data.time ||
-                data.hora ||
-                "",
-
-            message:
-                data.message ||
-                data.observations ||
-                data.obs ||
-                "",
-
-            status:
-                data.status ||
-                "pending",
-
-            createdAt:
-                data.createdAt ||
-                null
         };
+
     }
+
+
+    function getStatusLabel(status) {
+
+        const labels = {
+
+            pending:
+                "Aguardando",
+
+            confirmed:
+                "Confirmado",
+
+            completed:
+                "Realizado",
+
+            cancelled:
+                "Cancelado"
+
+        };
+
+
+        return (
+            labels[status] ||
+            "Aguardando"
+        );
+
+    }
+
 
     /* =====================================================
        CARREGAR AGENDAMENTOS
-       ===================================================== */
+    ===================================================== */
 
     async function loadAppointments() {
 
         if (!db) {
 
-            console.warn(
-                "Firestore ainda não está configurado."
+            console.error(
+                "Firestore não conectado."
             );
 
-            appointments = [];
-
-            updateDashboard();
-
-            renderAppointments();
+            showToast(
+                "Não foi possível conectar ao banco."
+            );
 
             return;
+
         }
+
+
+        if (refreshButton) {
+
+            refreshButton.classList.add(
+                "rotating"
+            );
+
+            refreshButton.disabled =
+                true;
+
+        }
+
 
         try {
 
-            const snapshot = await db
-                .collection("appointments")
-                .get();
+            const snapshot =
+                await db
+                    .collection(
+                        "appointments"
+                    )
+                    .get();
 
-            appointments = snapshot.docs
-                .map(normalizeAppointment)
-                .sort((a, b) => {
 
-                    const dateA = `${a.date} ${a.time}`;
-                    const dateB = `${b.date} ${b.time}`;
+            appointments =
+                snapshot.docs.map(doc => {
 
-                    return dateA.localeCompare(dateB);
+                    const data =
+                        doc.data();
+
+                    return {
+
+                        id:
+                            doc.id,
+
+                        slotId:
+                            data.slotId ||
+                            doc.id,
+
+                        clientName:
+                            data.clientName ||
+                            "Cliente",
+
+                        phone:
+                            data.phone ||
+                            "",
+
+                        service:
+                            data.service ||
+                            "Não informado",
+
+                        date:
+                            data.date ||
+                            "",
+
+                        time:
+                            data.time ||
+                            "",
+
+                        message:
+                            data.message ||
+                            "",
+
+                        status:
+                            data.status ||
+                            "pending",
+
+                        createdAt:
+                            data.createdAt ||
+                            null
+
+                    };
+
                 });
 
-            updateDashboard();
-            renderAppointments();
-            updateAppointmentBadge();
+
+            appointments.sort(
+                (a, b) => {
+
+                    const aDate =
+                        new Date(
+                            `${a.date}T${a.time || "00:00"}`
+                        );
+
+                    const bDate =
+                        new Date(
+                            `${b.date}T${b.time || "00:00"}`
+                        );
+
+
+                    return (
+                        aDate -
+                        bDate
+                    );
+
+                }
+            );
+
+
+            updateStatistics();
+
+            renderAppointments(
+                getFilteredAppointments()
+            );
+
+            renderUpcomingAppointments();
+
+            renderClients();
 
         } catch (error) {
 
@@ -503,894 +647,246 @@ document.addEventListener("DOMContentLoaded", () => {
                 error
             );
 
+
             showToast(
-                "Erro ao carregar",
-                "Não foi possível buscar os agendamentos.",
-                "error"
+                "Erro ao carregar agendamentos."
             );
 
-            appointments = [];
+        } finally {
 
-            updateDashboard();
-            renderAppointments();
+            if (refreshButton) {
 
-        }
-
-    }
-
-    /* =====================================================
-       CONTADORES
-       ===================================================== */
-
-    function updateDashboard() {
-
-        const today = getTodayString();
-
-        const total = appointments.length;
-
-        const pending = appointments.filter(
-            appointment =>
-                appointment.status === "pending"
-        ).length;
-
-        const confirmed = appointments.filter(
-            appointment =>
-                appointment.status === "confirmed"
-        ).length;
-
-        const todayAppointments = appointments.filter(
-            appointment =>
-                appointment.date === today &&
-                appointment.status !== "cancelled"
-        ).length;
-
-        setCounter(
-            [
-                "[data-stat='total']",
-                "#totalAppointments",
-                "#statTotal"
-            ],
-            total
-        );
-
-        setCounter(
-            [
-                "[data-stat='pending']",
-                "#pendingAppointments",
-                "#statPending"
-            ],
-            pending
-        );
-
-        setCounter(
-            [
-                "[data-stat='confirmed']",
-                "#confirmedAppointments",
-                "#statConfirmed"
-            ],
-            confirmed
-        );
-
-        setCounter(
-            [
-                "[data-stat='today']",
-                "#todayAppointments",
-                "#statToday"
-            ],
-            todayAppointments
-        );
-
-    }
-
-    function setCounter(selectors, value) {
-
-        for (const selector of selectors) {
-
-            const elements =
-                document.querySelectorAll(selector);
-
-            if (!elements.length) {
-                continue;
-            }
-
-            elements.forEach(element => {
-                element.textContent = value;
-            });
-
-            return;
-        }
-    }
-
-    /* =====================================================
-       BADGE DE PENDENTES
-       ===================================================== */
-
-    function updateAppointmentBadge() {
-
-        const pending = appointments.filter(
-            appointment =>
-                appointment.status === "pending"
-        ).length;
-
-        const badges = document.querySelectorAll(
-            ".admin-nav-badge"
-        );
-
-        badges.forEach(badge => {
-
-            badge.textContent = pending;
-
-            badge.hidden = pending === 0;
-
-        });
-
-    }
-
-    /* =====================================================
-       STATUS
-       ===================================================== */
-
-    function getStatusLabel(status) {
-
-        const labels = {
-            pending: "Pendente",
-            confirmed: "Confirmado",
-            completed: "Concluído",
-            cancelled: "Cancelado"
-        };
-
-        return labels[status] || "Pendente";
-    }
-
-    /* =====================================================
-       PRÓXIMOS AGENDAMENTOS
-       ===================================================== */
-
-    function getUpcomingAppointments() {
-
-        const now = new Date();
-
-        return appointments
-            .filter(appointment => {
-
-                if (!appointment.date) {
-                    return false;
-                }
-
-                if (appointment.status === "cancelled") {
-                    return false;
-                }
-
-                const appointmentDate =
-                    new Date(
-                        `${appointment.date}T${appointment.time || "00:00"}`
-                    );
-
-                return appointmentDate >= now;
-
-            })
-            .sort((a, b) => {
-
-                const dateA =
-                    new Date(
-                        `${a.date}T${a.time || "00:00"}`
-                    );
-
-                const dateB =
-                    new Date(
-                        `${b.date}T${b.time || "00:00"}`
-                    );
-
-                return dateA - dateB;
-
-            });
-
-    }
-
-    /* =====================================================
-       RENDERIZAR PRÓXIMOS
-       ===================================================== */
-
-    function renderUpcomingAppointments() {
-
-        const containers = document.querySelectorAll(
-            ".admin-upcoming-list, #upcomingAppointments, [data-upcoming]"
-        );
-
-        if (!containers.length) {
-            return;
-        }
-
-        const upcoming =
-            getUpcomingAppointments().slice(0, 5);
-
-        containers.forEach(container => {
-
-            if (!upcoming.length) {
-
-                container.innerHTML = `
-                    <div class="admin-empty-state">
-                        <div class="admin-empty-icon">
-                            <i class="fa-regular fa-calendar"></i>
-                        </div>
-
-                        <h4>Nenhum agendamento próximo</h4>
-
-                        <p>
-                            Quando uma cliente marcar um horário,
-                            ele aparecerá aqui.
-                        </p>
-                    </div>
-                `;
-
-                return;
-            }
-
-            container.innerHTML = upcoming
-                .map(createAppointmentHTML)
-                .join("");
-
-        });
-
-    }
-
-    /* =====================================================
-       HTML DO AGENDAMENTO
-       ===================================================== */
-
-    function createAppointmentHTML(appointment) {
-
-        const date =
-            formatShortDate(appointment.date);
-
-        return `
-            <article
-                class="admin-appointment-item"
-                data-appointment-id="${escapeHTML(appointment.id)}"
-            >
-
-                <div class="admin-appointment-date">
-                    <strong>${escapeHTML(date.day)}</strong>
-                    <span>${escapeHTML(date.month)}</span>
-                </div>
-
-                <div class="admin-appointment-client">
-
-                    <strong>
-                        ${escapeHTML(appointment.clientName)}
-                    </strong>
-
-                    <span>
-                        ${escapeHTML(appointment.service)}
-                    </span>
-
-                </div>
-
-                <div class="admin-appointment-time">
-                    <i class="fa-regular fa-clock"></i>
-                    ${escapeHTML(appointment.time || "--:--")}
-                </div>
-
-                <span class="admin-status ${escapeHTML(
-                    appointment.status
-                )}">
-                    ${getStatusLabel(appointment.status)}
-                </span>
-
-            </article>
-        `;
-    }
-
-    /* =====================================================
-       ESCAPE HTML
-       ===================================================== */
-
-    function escapeHTML(value) {
-
-        return String(value ?? "")
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-    }
-
-    /* =====================================================
-       LISTA COMPLETA DE AGENDAMENTOS
-       ===================================================== */
-
-    function renderAppointments(list = appointments) {
-
-        const containers = document.querySelectorAll(
-            "#appointmentsList, .admin-appointments-list, [data-appointments-list]"
-        );
-
-        containers.forEach(container => {
-
-            if (!list.length) {
-
-                container.innerHTML = `
-                    <div class="admin-empty-state">
-                        <div class="admin-empty-icon">
-                            <i class="fa-regular fa-calendar-xmark"></i>
-                        </div>
-
-                        <h4>Nenhum agendamento encontrado</h4>
-
-                        <p>
-                            Ainda não há horários registrados
-                            ou nenhum resultado corresponde aos filtros.
-                        </p>
-                    </div>
-                `;
-
-                return;
-            }
-
-            container.innerHTML = list
-                .map(appointment => {
-
-                    const date =
-                        formatShortDate(appointment.date);
-
-                    return `
-                        <article
-                            class="admin-appointment-item"
-                            data-appointment-id="${escapeHTML(appointment.id)}"
-                        >
-
-                            <div class="admin-appointment-date">
-                                <strong>${escapeHTML(date.day)}</strong>
-                                <span>${escapeHTML(date.month)}</span>
-                            </div>
-
-                            <div class="admin-appointment-client">
-                                <strong>
-                                    ${escapeHTML(
-                                        appointment.clientName
-                                    )}
-                                </strong>
-
-                                <span>
-                                    ${escapeHTML(
-                                        appointment.service
-                                    )}
-                                </span>
-                            </div>
-
-                            <div class="admin-appointment-time">
-                                <i class="fa-regular fa-clock"></i>
-                                ${escapeHTML(
-                                    appointment.time || "--:--"
-                                )}
-                            </div>
-
-                            <span class="admin-status ${escapeHTML(
-                                appointment.status
-                            )}">
-                                ${getStatusLabel(
-                                    appointment.status
-                                )}
-                            </span>
-
-                        </article>
-                    `;
-
-                })
-                .join("");
-
-        });
-
-        const resultCount =
-            document.querySelectorAll(
-                ".admin-result-count, [data-result-count]"
-            );
-
-        resultCount.forEach(element => {
-            element.textContent =
-                `${list.length} resultado${list.length === 1 ? "" : "s"}`;
-        });
-
-        renderUpcomingAppointments();
-
-        attachAppointmentClickEvents();
-
-    }
-
-    /* =====================================================
-       CLICAR NO AGENDAMENTO
-       ===================================================== */
-
-    function attachAppointmentClickEvents() {
-
-        document
-            .querySelectorAll(
-                ".admin-appointment-item[data-appointment-id]"
-            )
-            .forEach(item => {
-
-                item.style.cursor = "pointer";
-
-                item.addEventListener("click", () => {
-
-                    const id =
-                        item.dataset.appointmentId;
-
-                    openAppointmentDetails(id);
-
-                });
-
-            });
-
-    }
-
-    /* =====================================================
-       MODAL DE DETALHES
-       ===================================================== */
-
-    function openAppointmentDetails(id) {
-
-        const appointment =
-            appointments.find(
-                item => item.id === id
-            );
-
-        if (!appointment) {
-            return;
-        }
-
-        const modal =
-            document.querySelector(".admin-modal");
-
-        if (!modal) {
-            return;
-        }
-
-        const modalBody =
-            modal.querySelector(".admin-modal-body");
-
-        if (!modalBody) {
-            return;
-        }
-
-        modalBody.innerHTML = `
-            <div class="admin-account-info">
-
-                <div class="admin-account-row">
-                    <span>Cliente</span>
-                    <strong>
-                        ${escapeHTML(appointment.clientName)}
-                    </strong>
-                </div>
-
-                <div class="admin-account-row">
-                    <span>WhatsApp</span>
-                    <strong>
-                        ${escapeHTML(
-                            appointment.phone || "Não informado"
-                        )}
-                    </strong>
-                </div>
-
-                <div class="admin-account-row">
-                    <span>Serviço</span>
-                    <strong>
-                        ${escapeHTML(appointment.service)}
-                    </strong>
-                </div>
-
-                <div class="admin-account-row">
-                    <span>Data</span>
-                    <strong>
-                        ${formatDate(appointment.date)}
-                    </strong>
-                </div>
-
-                <div class="admin-account-row">
-                    <span>Horário</span>
-                    <strong>
-                        ${escapeHTML(
-                            appointment.time || "Não informado"
-                        )}
-                    </strong>
-                </div>
-
-                <div class="admin-account-row">
-                    <span>Status</span>
-                    <strong>
-                        ${getStatusLabel(appointment.status)}
-                    </strong>
-                </div>
-
-            </div>
-
-            ${
-                appointment.message
-                    ? `
-                        <div
-                            style="
-                                margin-top:20px;
-                                padding:15px;
-                                border-radius:12px;
-                                background:var(--pink-pale);
-                                color:var(--text-light);
-                                font-size:.72rem;
-                                line-height:1.6;
-                            "
-                        >
-                            <strong
-                                style="
-                                    display:block;
-                                    margin-bottom:6px;
-                                    color:var(--text);
-                                "
-                            >
-                                Observação
-                            </strong>
-
-                            ${escapeHTML(
-                                appointment.message
-                            )}
-                        </div>
-                    `
-                    : ""
-            }
-
-            <div
-                style="
-                    display:flex;
-                    flex-wrap:wrap;
-                    gap:8px;
-                    margin-top:20px;
-                "
-            >
-
-                ${
-                    appointment.status !== "confirmed"
-                        ? `
-                            <button
-                                class="admin-primary-button"
-                                type="button"
-                                data-modal-action="confirm"
-                                data-id="${escapeHTML(id)}"
-                            >
-                                <i class="fa-solid fa-check"></i>
-                                Confirmar
-                            </button>
-                        `
-                        : ""
-                }
-
-                ${
-                    appointment.status !== "completed"
-                        ? `
-                            <button
-                                class="admin-secondary-button"
-                                type="button"
-                                data-modal-action="complete"
-                                data-id="${escapeHTML(id)}"
-                            >
-                                <i class="fa-solid fa-circle-check"></i>
-                                Concluir
-                            </button>
-                        `
-                        : ""
-                }
-
-                ${
-                    appointment.status !== "cancelled"
-                        ? `
-                            <button
-                                class="admin-secondary-button"
-                                type="button"
-                                data-modal-action="cancel"
-                                data-id="${escapeHTML(id)}"
-                            >
-                                <i class="fa-solid fa-xmark"></i>
-                                Cancelar
-                            </button>
-                        `
-                        : ""
-                }
-
-            </div>
-        `;
-
-        modal.hidden = false;
-
-        document.body.style.overflow = "hidden";
-
-        modal
-            .querySelectorAll("[data-modal-action]")
-            .forEach(button => {
-
-                button.addEventListener("click", () => {
-
-                    const action =
-                        button.dataset.modalAction;
-
-                    const appointmentId =
-                        button.dataset.id;
-
-                    changeAppointmentStatus(
-                        appointmentId,
-                        action
-                    );
-
-                });
-
-            });
-
-    }
-
-    /* =====================================================
-       FECHAR MODAL
-       ===================================================== */
-
-    function closeModal() {
-
-        const modal =
-            document.querySelector(".admin-modal");
-
-        if (!modal) {
-            return;
-        }
-
-        modal.hidden = true;
-
-        document.body.style.overflow = "";
-
-    }
-
-    document
-        .querySelectorAll(
-            ".admin-modal-close, .admin-modal-overlay"
-        )
-        .forEach(element => {
-
-            element.addEventListener(
-                "click",
-                closeModal
-            );
-
-        });
-
-    document.addEventListener("keydown", event => {
-
-        if (event.key === "Escape") {
-
-            closeModal();
-            closeSidebar();
-
-        }
-
-    });
-
-    /* =====================================================
-       ALTERAR STATUS
-       ===================================================== */
-
-    async function changeAppointmentStatus(id, action) {
-
-        const appointment =
-            appointments.find(
-                item => item.id === id
-            );
-
-        if (!appointment) {
-            return;
-        }
-
-        const statusMap = {
-            confirm: "confirmed",
-            complete: "completed",
-            cancel: "cancelled"
-        };
-
-        const newStatus =
-            statusMap[action];
-
-        if (!newStatus) {
-            return;
-        }
-
-        if (newStatus === "cancelled") {
-
-            const confirmed =
-                window.confirm(
-                    "Deseja realmente cancelar este agendamento?"
+                refreshButton.classList.remove(
+                    "rotating"
                 );
 
-            if (!confirmed) {
-                return;
+                refreshButton.disabled =
+                    false;
+
             }
 
         }
 
-        if (!db) {
+    }
 
-            appointment.status = newStatus;
 
-            updateDashboard();
-            renderAppointments();
+    /* =====================================================
+       ESTATÍSTICAS
+    ===================================================== */
 
-            closeModal();
+    function updateStatistics() {
 
-            showToast(
-                "Status atualizado",
-                "A alteração foi feita localmente.",
-                "warning"
+        const total =
+            appointments.length;
+
+
+        const pending =
+            appointments.filter(
+                item =>
+                    item.status ===
+                    "pending"
+            ).length;
+
+
+        const confirmed =
+            appointments.filter(
+                item =>
+                    item.status ===
+                    "confirmed"
+            ).length;
+
+
+        const completed =
+            appointments.filter(
+                item =>
+                    item.status ===
+                    "completed"
+            ).length;
+
+
+        const totalElement =
+            document.querySelector(
+                '[data-stat="total"]'
             );
 
-            return;
+        const pendingElement =
+            document.querySelector(
+                '[data-stat="pending"]'
+            );
+
+        const confirmedElement =
+            document.querySelector(
+                '[data-stat="confirmed"]'
+            );
+
+        const completedElement =
+            document.querySelector(
+                '[data-stat="completed"]'
+            );
+
+
+        if (totalElement) {
+            totalElement.textContent =
+                total;
         }
 
-        try {
+        if (pendingElement) {
+            pendingElement.textContent =
+                pending;
+        }
 
-            await db
-                .collection("appointments")
-                .doc(id)
-                .update({
-                    status: newStatus,
-                    updatedAt:
-                        firebase.firestore.FieldValue.serverTimestamp()
-                });
+        if (confirmedElement) {
+            confirmedElement.textContent =
+                confirmed;
+        }
 
-            appointment.status = newStatus;
+        if (completedElement) {
+            completedElement.textContent =
+                completed;
+        }
 
-            updateDashboard();
-            renderAppointments();
-            updateAppointmentBadge();
 
-            closeModal();
+        if (pendingBadge) {
 
-            const messages = {
-                confirmed:
-                    "O agendamento foi confirmado.",
-                completed:
-                    "O atendimento foi marcado como concluído.",
-                cancelled:
-                    "O agendamento foi cancelado."
-            };
+            pendingBadge.textContent =
+                pending;
 
-            showToast(
-                "Agendamento atualizado",
-                messages[newStatus],
-                newStatus === "cancelled"
-                    ? "warning"
-                    : "success"
-            );
-
-        } catch (error) {
-
-            console.error(
-                "Erro ao atualizar status:",
-                error
-            );
-
-            showToast(
-                "Não foi possível atualizar",
-                "Verifique a conexão com o Firebase.",
-                "error"
-            );
+            pendingBadge.style.display =
+                pending > 0
+                    ? "flex"
+                    : "none";
 
         }
 
     }
+
 
     /* =====================================================
        FILTROS
-       ===================================================== */
+    ===================================================== */
 
-    const dateFilter =
-        document.querySelector(
-            "#appointmentDateFilter, [data-filter-date]"
-        );
+    function getFilteredAppointments() {
 
-    const statusFilter =
-        document.querySelector(
-            "#appointmentStatusFilter, [data-filter-status]"
-        );
-
-    const searchFilter =
-        document.querySelector(
-            "#appointmentSearch, [data-filter-search]"
-        );
-
-    function applyFilters() {
-
-        let filtered =
+        let result =
             [...appointments];
 
-        const date =
-            dateFilter?.value || "";
 
-        const status =
-            statusFilter?.value || "";
+        const selectedDate =
+            dateFilter
+                ? dateFilter.value
+                : "";
+
+
+        const selectedStatus =
+            statusFilter
+                ? statusFilter.value
+                : "";
+
 
         const search =
-            searchFilter?.value
-                .trim()
-                .toLowerCase() || "";
+            searchInput
+                ? searchInput.value
+                    .trim()
+                    .toLowerCase()
+                : "";
 
-        if (date) {
 
-            filtered =
-                filtered.filter(
-                    appointment =>
-                        appointment.date === date
+        if (selectedDate) {
+
+            result =
+                result.filter(
+                    item =>
+                        item.date ===
+                        selectedDate
                 );
 
         }
 
-        if (status) {
 
-            filtered =
-                filtered.filter(
-                    appointment =>
-                        appointment.status === status
+        if (selectedStatus) {
+
+            result =
+                result.filter(
+                    item =>
+                        item.status ===
+                        selectedStatus
                 );
 
         }
+
 
         if (search) {
 
-            filtered =
-                filtered.filter(appointment => {
+            result =
+                result.filter(item => {
 
-                    const content = [
-                        appointment.clientName,
-                        appointment.phone,
-                        appointment.service,
-                        appointment.date,
-                        appointment.time
-                    ]
-                        .join(" ")
-                        .toLowerCase();
+                    const content =
 
-                    return content.includes(search);
+                        `${item.clientName} ` +
+                        `${item.phone} ` +
+                        `${item.service}`
+
+                            .toLowerCase();
+
+
+                    return content.includes(
+                        search
+                    );
 
                 });
 
         }
 
-        renderAppointments(filtered);
+
+        return result;
 
     }
 
-    [
-        dateFilter,
-        statusFilter,
-        searchFilter
-    ].forEach(element => {
 
-        if (!element) {
-            return;
-        }
+    function applyFilters() {
 
-        element.addEventListener(
-            "input",
-            applyFilters
+        renderAppointments(
+            getFilteredAppointments()
         );
 
-        element.addEventListener(
+    }
+
+
+    if (dateFilter) {
+
+        dateFilter.addEventListener(
             "change",
             applyFilters
         );
 
-    });
+    }
 
-    /* =====================================================
-       LIMPAR FILTROS
-       ===================================================== */
 
-    document
-        .querySelectorAll(
-            ".admin-clear-filter, [data-clear-filters]"
-        )
-        .forEach(button => {
+    if (statusFilter) {
 
-            button.addEventListener("click", () => {
+        statusFilter.addEventListener(
+            "change",
+            applyFilters
+        );
+
+    }
+
+
+    if (searchInput) {
+
+        searchInput.addEventListener(
+            "input",
+            applyFilters
+        );
+
+    }
+
+
+    if (clearFiltersButton) {
+
+        clearFiltersButton.addEventListener(
+            "click",
+            () => {
 
                 if (dateFilter) {
                     dateFilter.value = "";
@@ -1400,78 +896,1297 @@ document.addEventListener("DOMContentLoaded", () => {
                     statusFilter.value = "";
                 }
 
-                if (searchFilter) {
-                    searchFilter.value = "";
+                if (searchInput) {
+                    searchInput.value = "";
                 }
 
-                renderAppointments();
 
-            });
+                applyFilters();
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       LISTA DE AGENDAMENTOS
+    ===================================================== */
+
+    function renderAppointments(list) {
+
+        if (!appointmentsList) {
+            return;
+        }
+
+
+        if (
+            appointmentResultsCount
+        ) {
+
+            appointmentResultsCount.textContent =
+                `${list.length} resultado${
+                    list.length === 1
+                        ? ""
+                        : "s"
+                }`;
+
+        }
+
+
+        if (!list.length) {
+
+            appointmentsList.innerHTML = `
+
+                <div class="admin-empty-state">
+
+                    <div class="admin-empty-icon">
+                        <i class="fa-regular fa-calendar-xmark"></i>
+                    </div>
+
+                    <h3>
+                        Nenhum agendamento encontrado
+                    </h3>
+
+                    <p>
+                        Não encontramos agendamentos
+                        com esses filtros.
+                    </p>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        appointmentsList.innerHTML =
+            list.map(item => {
+
+                const initial =
+                    item.clientName
+                        .charAt(0)
+                        .toUpperCase();
+
+
+                return `
+
+                    <div
+                        class="admin-appointment-row"
+                        data-id="${escapeHTML(
+                            item.id
+                        )}"
+                    >
+
+                        <div class="admin-appointment-client">
+
+                            <div class="admin-client-avatar">
+                                ${escapeHTML(initial)}
+                            </div>
+
+                            <div class="admin-appointment-client-info">
+
+                                <strong>
+                                    ${escapeHTML(
+                                        item.clientName
+                                    )}
+                                </strong>
+
+                                <span>
+                                    ${escapeHTML(
+                                        item.phone
+                                    )}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="admin-appointment-cell">
+
+                            <strong>
+                                ${escapeHTML(
+                                    item.service
+                                )}
+                            </strong>
+
+                            <span>
+                                Serviço
+                            </span>
+
+                        </div>
+
+
+                        <div class="admin-appointment-cell">
+
+                            <strong>
+                                ${formatDate(
+                                    item.date
+                                )}
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    item.time
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <span
+                                class="admin-status ${escapeHTML(
+                                    item.status
+                                )}"
+                            >
+                                ${getStatusLabel(
+                                    item.status
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="admin-appointment-actions">
+
+                            <button
+                                type="button"
+                                class="admin-action-button"
+                                title="Ver detalhes"
+                                data-action="view"
+                                data-id="${escapeHTML(
+                                    item.id
+                                )}"
+                            >
+                                <i class="fa-regular fa-eye"></i>
+                            </button>
+
+
+                            ${
+                                item.status ===
+                                "pending"
+                                    ? `
+
+                                        <button
+                                            type="button"
+                                            class="admin-action-button confirm"
+                                            title="Confirmar"
+                                            data-action="confirm"
+                                            data-id="${escapeHTML(
+                                                item.id
+                                            )}"
+                                        >
+                                            <i class="fa-solid fa-check"></i>
+                                        </button>
+
+                                    `
+                                    : ""
+                            }
+
+
+                            ${
+                                item.status !==
+                                "cancelled"
+                                    ? `
+
+                                        <button
+                                            type="button"
+                                            class="admin-action-button cancel"
+                                            title="Cancelar"
+                                            data-action="cancel"
+                                            data-id="${escapeHTML(
+                                                item.id
+                                            )}"
+                                        >
+                                            <i class="fa-solid fa-xmark"></i>
+                                        </button>
+
+                                    `
+                                    : ""
+                            }
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }).join("");
+
+
+        attachAppointmentButtons();
+
+    }
+
+
+    /* =====================================================
+       PRÓXIMOS AGENDAMENTOS
+    ===================================================== */
+
+    function renderUpcomingAppointments() {
+
+        if (!upcomingAppointments) {
+            return;
+        }
+
+
+        const now =
+            new Date();
+
+
+        const upcoming =
+            appointments
+                .filter(item => {
+
+                    if (
+                        item.status ===
+                        "cancelled"
+                    ) {
+                        return false;
+                    }
+
+
+                    const date =
+                        new Date(
+                            `${item.date}T${item.time || "00:00"}`
+                        );
+
+
+                    return (
+                        date >= now
+                    );
+
+                })
+                .slice(0, 5);
+
+
+        if (!upcoming.length) {
+
+            upcomingAppointments.innerHTML = `
+
+                <div class="admin-empty-state">
+
+                    <div class="admin-empty-icon">
+                        <i class="fa-regular fa-calendar"></i>
+                    </div>
+
+                    <h3>
+                        Nenhum atendimento próximo
+                    </h3>
+
+                    <p>
+                        Os próximos horários aparecerão aqui.
+                    </p>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        upcomingAppointments.innerHTML =
+            upcoming.map(item => {
+
+                const short =
+                    getShortDate(
+                        item.date
+                    );
+
+
+                return `
+
+                    <div
+                        class="admin-upcoming-item"
+                        data-id="${escapeHTML(
+                            item.id
+                        )}"
+                    >
+
+                        <div class="admin-date-box">
+
+                            <strong>
+                                ${short.day}
+                            </strong>
+
+                            <span>
+                                ${short.month}
+                            </span>
+
+                        </div>
+
+
+                        <div class="admin-upcoming-info">
+
+                            <strong>
+                                ${escapeHTML(
+                                    item.clientName
+                                )}
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    item.service
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="admin-upcoming-time">
+
+                            ${escapeHTML(
+                                item.time
+                            )}
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }).join("");
+
+    }
+
+
+    /* =====================================================
+       CLIENTES
+    ===================================================== */
+
+    function renderClients() {
+
+        const clientsSection =
+            document.getElementById(
+                "clientsSection"
+            );
+
+
+        if (!clientsSection) {
+            return;
+        }
+
+
+        const panel =
+            clientsSection.querySelector(
+                ".admin-panel"
+            );
+
+
+        if (!panel) {
+            return;
+        }
+
+
+        const clientMap =
+            new Map();
+
+
+        appointments.forEach(item => {
+
+            const key =
+                item.phone ||
+                item.clientName;
+
+
+            if (!clientMap.has(key)) {
+
+                clientMap.set(
+                    key,
+                    {
+                        name:
+                            item.clientName,
+
+                        phone:
+                            item.phone,
+
+                        appointments:
+                            0
+                    }
+                );
+
+            }
+
+
+            clientMap.get(key)
+                .appointments++;
 
         });
 
+
+        const clients =
+            [...clientMap.values()];
+
+
+        if (!clients.length) {
+
+            return;
+
+        }
+
+
+        panel.innerHTML = `
+
+            <div
+                style="
+                    padding:20px;
+                    display:grid;
+                    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+                    gap:12px;
+                "
+            >
+
+                ${clients.map(client => `
+
+                    <div
+                        style="
+                            padding:17px;
+                            border:1px solid var(--border);
+                            border-radius:14px;
+                            background:#fffafd;
+                        "
+                    >
+
+                        <strong
+                            style="
+                                display:block;
+                                font-size:12px;
+                                margin-bottom:5px;
+                            "
+                        >
+                            ${escapeHTML(
+                                client.name
+                            )}
+                        </strong>
+
+                        <span
+                            style="
+                                display:block;
+                                color:var(--text-muted);
+                                font-size:10px;
+                                margin-bottom:8px;
+                            "
+                        >
+                            ${escapeHTML(
+                                client.phone
+                            )}
+                        </span>
+
+                        <small
+                            style="
+                                color:var(--pink-dark);
+                                font-size:9px;
+                                font-weight:700;
+                            "
+                        >
+                            ${client.appointments}
+                            agendamento${
+                                client.appointments === 1
+                                    ? ""
+                                    : "s"
+                            }
+                        </small>
+
+                    </div>
+
+                `).join("")}
+
+            </div>
+
+        `;
+
+    }
+
+
     /* =====================================================
-       ATUALIZAR MANUALMENTE
-       ===================================================== */
+       BOTÕES DOS AGENDAMENTOS
+    ===================================================== */
 
-    document
-        .querySelectorAll(
-            ".admin-refresh-button, [data-refresh]"
-        )
-        .forEach(button => {
+    function attachAppointmentButtons() {
 
-            button.addEventListener("click", async () => {
+        document
+            .querySelectorAll(
+                "[data-action][data-id]"
+            )
+            .forEach(button => {
 
-                const icon =
-                    button.querySelector("i");
+                button.addEventListener(
+                    "click",
+                    async event => {
 
-                if (icon) {
-                    icon.classList.add("fa-spin");
-                }
+                        event.stopPropagation();
 
-                await loadAppointments();
 
-                if (icon) {
-                    icon.classList.remove("fa-spin");
-                }
+                        const id =
+                            button.dataset.id;
 
-                showToast(
-                    "Agenda atualizada",
-                    "Os dados foram atualizados.",
-                    "success"
+
+                        const action =
+                            button.dataset.action;
+
+
+                        if (
+                            action ===
+                            "view"
+                        ) {
+
+                            openAppointmentModal(
+                                id
+                            );
+
+                        }
+
+
+                        if (
+                            action ===
+                            "confirm"
+                        ) {
+
+                            await confirmAppointment(
+                                id
+                            );
+
+                        }
+
+
+                        if (
+                            action ===
+                            "cancel"
+                        ) {
+
+                            await cancelAppointment(
+                                id
+                            );
+
+                        }
+
+                    }
                 );
 
             });
 
-        });
+    }
+
 
     /* =====================================================
-       ATUALIZAÇÃO AUTOMÁTICA
-       ===================================================== */
+       MODAL
+    ===================================================== */
 
-    setInterval(() => {
+    function openAppointmentModal(id) {
+
+        const item =
+            appointments.find(
+                appointment =>
+                    appointment.id === id
+            );
+
 
         if (
-            currentUser &&
-            document.visibilityState === "visible"
+            !item ||
+            !appointmentModal ||
+            !appointmentModalBody
         ) {
-            loadAppointments();
+            return;
         }
 
-    }, 60000);
+
+        appointmentModalBody.innerHTML = `
+
+            <div class="admin-detail-grid">
+
+                <div class="admin-detail-item">
+
+                    <span>
+                        Cliente
+                    </span>
+
+                    <strong>
+                        ${escapeHTML(
+                            item.clientName
+                        )}
+                    </strong>
+
+                </div>
+
+
+                <div class="admin-detail-item">
+
+                    <span>
+                        WhatsApp
+                    </span>
+
+                    <strong>
+                        ${escapeHTML(
+                            item.phone
+                        )}
+                    </strong>
+
+                </div>
+
+
+                <div class="admin-detail-item">
+
+                    <span>
+                        Serviço
+                    </span>
+
+                    <strong>
+                        ${escapeHTML(
+                            item.service
+                        )}
+                    </strong>
+
+                </div>
+
+
+                <div class="admin-detail-item">
+
+                    <span>
+                        Status
+                    </span>
+
+                    <strong>
+                        ${getStatusLabel(
+                            item.status
+                        )}
+                    </strong>
+
+                </div>
+
+
+                <div class="admin-detail-item">
+
+                    <span>
+                        Data
+                    </span>
+
+                    <strong>
+                        ${formatDate(
+                            item.date
+                        )}
+                    </strong>
+
+                </div>
+
+
+                <div class="admin-detail-item">
+
+                    <span>
+                        Horário
+                    </span>
+
+                    <strong>
+                        ${escapeHTML(
+                            item.time
+                        )}
+                    </strong>
+
+                </div>
+
+
+                <div class="admin-detail-item full">
+
+                    <span>
+                        Observação
+                    </span>
+
+                    <strong>
+                        ${
+                            item.message
+                                ? escapeHTML(
+                                    item.message
+                                )
+                                : "Nenhuma observação"
+                        }
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="admin-modal-actions">
+
+                ${
+                    item.status ===
+                    "pending"
+                        ? `
+
+                            <button
+                                type="button"
+                                class="admin-modal-confirm"
+                                id="modalConfirmAppointment"
+                            >
+                                <i class="fa-solid fa-check"></i>
+                                Confirmar
+                            </button>
+
+                        `
+                        : ""
+                }
+
+
+                ${
+                    item.status ===
+                    "confirmed"
+                        ? `
+
+                            <button
+                                type="button"
+                                class="admin-modal-confirm"
+                                id="modalCompleteAppointment"
+                            >
+                                <i class="fa-solid fa-star"></i>
+                                Marcar como realizado
+                            </button>
+
+                        `
+                        : ""
+                }
+
+
+                ${
+                    item.status !==
+                    "cancelled"
+                        ? `
+
+                            <button
+                                type="button"
+                                class="admin-modal-cancel"
+                                id="modalCancelAppointment"
+                            >
+                                <i class="fa-solid fa-xmark"></i>
+                                Cancelar
+                            </button>
+
+                        `
+                        : ""
+                }
+
+            </div>
+
+        `;
+
+
+        appointmentModal.classList.add(
+            "active"
+        );
+
+
+        appointmentModal.setAttribute(
+            "aria-hidden",
+            "false"
+        );
+
+
+        document.body.style.overflow =
+            "hidden";
+
+
+        const confirmButton =
+            document.getElementById(
+                "modalConfirmAppointment"
+            );
+
+
+        const completeButton =
+            document.getElementById(
+                "modalCompleteAppointment"
+            );
+
+
+        const cancelButton =
+            document.getElementById(
+                "modalCancelAppointment"
+            );
+
+
+        if (confirmButton) {
+
+            confirmButton.addEventListener(
+                "click",
+                async () => {
+
+                    await confirmAppointment(
+                        id
+                    );
+
+                    closeModal();
+
+                }
+            );
+
+        }
+
+
+        if (completeButton) {
+
+            completeButton.addEventListener(
+                "click",
+                async () => {
+
+                    await completeAppointment(
+                        id
+                    );
+
+                    closeModal();
+
+                }
+            );
+
+        }
+
+
+        if (cancelButton) {
+
+            cancelButton.addEventListener(
+                "click",
+                async () => {
+
+                    await cancelAppointment(
+                        id
+                    );
+
+                    closeModal();
+
+                }
+            );
+
+        }
+
+    }
+
+
+    function closeModal() {
+
+        if (!appointmentModal) {
+            return;
+        }
+
+
+        appointmentModal.classList.remove(
+            "active"
+        );
+
+
+        appointmentModal.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
+
+        document.body.style.overflow =
+            "";
+
+    }
+
+
+    if (modalClose) {
+
+        modalClose.addEventListener(
+            "click",
+            closeModal
+        );
+
+    }
+
+
+    if (modalOverlay) {
+
+        modalOverlay.addEventListener(
+            "click",
+            closeModal
+        );
+
+    }
+
+
+    document.addEventListener(
+        "keydown",
+        event => {
+
+            if (
+                event.key ===
+                "Escape"
+            ) {
+
+                closeModal();
+                closeSidebar();
+
+            }
+
+        }
+    );
+
 
     /* =====================================================
-       DATA MÍNIMA DOS FILTROS
-       ===================================================== */
+       CONFIRMAR
+    ===================================================== */
 
-    if (dateFilter) {
-        dateFilter.min = getTodayString();
+    async function confirmAppointment(id) {
+
+        if (!db) {
+            return;
+        }
+
+
+        try {
+
+            await db
+                .collection(
+                    "appointments"
+                )
+                .doc(id)
+                .update({
+
+                    status:
+                        "confirmed",
+
+                    updatedAt:
+                        firebase.firestore
+                            .FieldValue
+                            .serverTimestamp()
+
+                });
+
+
+            showToast(
+                "Agendamento confirmado com sucesso."
+            );
+
+
+            await loadAppointments();
+
+        } catch (error) {
+
+            console.error(
+                "Erro ao confirmar:",
+                error
+            );
+
+
+            showToast(
+                "Não foi possível confirmar."
+            );
+
+        }
+
     }
+
+
+    /* =====================================================
+       CONCLUIR
+    ===================================================== */
+
+    async function completeAppointment(id) {
+
+        if (!db) {
+            return;
+        }
+
+
+        try {
+
+            await db
+                .collection(
+                    "appointments"
+                )
+                .doc(id)
+                .update({
+
+                    status:
+                        "completed",
+
+                    updatedAt:
+                        firebase.firestore
+                            .FieldValue
+                            .serverTimestamp()
+
+                });
+
+
+            showToast(
+                "Atendimento marcado como realizado."
+            );
+
+
+            await loadAppointments();
+
+        } catch (error) {
+
+            console.error(
+                "Erro ao concluir:",
+                error
+            );
+
+
+            showToast(
+                "Não foi possível atualizar."
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       CANCELAR + LIBERAR HORÁRIO
+    ===================================================== */
+
+    async function cancelAppointment(id) {
+
+        const appointment =
+            appointments.find(
+                item =>
+                    item.id === id
+            );
+
+
+        if (
+            !appointment ||
+            !db
+        ) {
+            return;
+        }
+
+
+        const confirmed =
+            window.confirm(
+                `Cancelar o agendamento de ${appointment.clientName}? O horário ficará disponível novamente.`
+            );
+
+
+        if (!confirmed) {
+            return;
+        }
+
+
+        try {
+
+            const batch =
+                db.batch();
+
+
+            const appointmentRef =
+                db
+                    .collection(
+                        "appointments"
+                    )
+                    .doc(id);
+
+
+            const availabilityRef =
+                db
+                    .collection(
+                        "availability"
+                    )
+                    .doc(
+                        appointment.slotId ||
+                        id
+                    );
+
+
+            batch.update(
+                appointmentRef,
+                {
+
+                    status:
+                        "cancelled",
+
+                    updatedAt:
+                        firebase.firestore
+                            .FieldValue
+                            .serverTimestamp()
+
+                }
+            );
+
+
+            /*
+             * Excluímos o documento de disponibilidade.
+             * Assim o horário volta a aparecer para clientes.
+             */
+
+            batch.delete(
+                availabilityRef
+            );
+
+
+            await batch.commit();
+
+
+            showToast(
+                "Agendamento cancelado e horário liberado."
+            );
+
+
+            await loadAppointments();
+
+        } catch (error) {
+
+            console.error(
+                "Erro ao cancelar:",
+                error
+            );
+
+
+            showToast(
+                "Não foi possível cancelar."
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       ATUALIZAR
+    ===================================================== */
+
+    if (refreshButton) {
+
+        refreshButton.addEventListener(
+            "click",
+            async () => {
+
+                await loadAppointments();
+
+                showToast(
+                    "Informações atualizadas."
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       LOGOUT
+    ===================================================== */
+
+    if (logoutButton) {
+
+        logoutButton.addEventListener(
+            "click",
+            async () => {
+
+                if (!auth) {
+                    return;
+                }
+
+
+                const confirmed =
+                    window.confirm(
+                        "Deseja sair do painel administrativo?"
+                    );
+
+
+                if (!confirmed) {
+                    return;
+                }
+
+
+                try {
+
+                    await auth.signOut();
+
+
+                    window.location.href =
+                        "admin-login.html";
+
+                } catch (error) {
+
+                    console.error(
+                        "Erro no logout:",
+                        error
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       AUTENTICAÇÃO
+    ===================================================== */
+
+    function initializeAuthentication() {
+
+        if (!auth) {
+
+            console.error(
+                "Firebase Authentication não conectado."
+            );
+
+
+            hideLoader();
+
+            return;
+
+        }
+
+
+        auth.onAuthStateChanged(
+            async user => {
+
+                if (!user) {
+
+                    window.location.href =
+                        "admin-login.html";
+
+                    return;
+
+                }
+
+
+                currentUser =
+                    user;
+
+
+                if (adminUserName) {
+
+                    adminUserName.textContent =
+                        user.displayName ||
+                        "Samira";
+
+                }
+
+
+                if (adminUserEmail) {
+
+                    adminUserEmail.textContent =
+                        user.email ||
+                        "Administradora";
+
+                }
+
+
+                await loadAppointments();
+
+
+                hideLoader();
+
+            }
+        );
+
+    }
+
 
     /* =====================================================
        INICIALIZAÇÃO
-       ===================================================== */
+    ===================================================== */
 
-    checkAuthentication();
+    initializeAuthentication();
 
 });
