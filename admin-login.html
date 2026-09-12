@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Área Administrativa | Samira Beauty</title>
+
+    <meta
+        name="description"
+        content="Área administrativa da Samira Beauty."
+    >
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <!-- CSS -->
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/admin-login.css"
+    >
+
+</head>
+
+
+<body class="admin-login-page">
+
+
+    <!-- =====================================================
+         FUNDO DECORATIVO
+    ====================================================== -->
+
+    <div class="admin-background">
+
+        <div class="admin-glow admin-glow-one"></div>
+
+        <div class="admin-glow admin-glow-two"></div>
+
+        <div class="admin-sparkle sparkle-one">
+            ✦
+        </div>
+
+        <div class="admin-sparkle sparkle-two">
+            ✧
+        </div>
+
+        <div class="admin-sparkle sparkle-three">
+            ✦
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         LOGIN
+    ====================================================== -->
+
+    <main class="admin-login-container">
+
+        <div class="admin-login-card">
+
+
+            <!-- LOGO -->
+
+            <a
+                href="index.html"
+                class="admin-logo"
+            >
+
+                <span class="admin-logo-main">
+                    Samira
+                </span>
+
+                <span class="admin-logo-sub">
+                    BEAUTY
+                </span>
+
+            </a>
+
+
+            <!-- ÍCONE -->
+
+            <div class="admin-lock">
+
+                <div class="admin-lock-glow"></div>
+
+                <i class="fa-solid fa-lock"></i>
+
+            </div>
+
+
+            <!-- TÍTULO -->
+
+            <div class="admin-login-heading">
+
+                <span>
+                    ÁREA RESTRITA
+                </span>
+
+                <h1>
+                    Bem-vinda, Samira
+                </h1>
+
+                <p>
+                    Acesse o painel para gerenciar
+                    seus agendamentos.
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 FORMULÁRIO
+            ================================================== -->
+
+            <form
+                id="adminLoginForm"
+                class="admin-login-form"
+            >
+
+
+                <!-- E-MAIL -->
+
+                <div class="admin-field">
+
+                    <label for="adminEmail">
+
+                        <i class="fa-regular fa-envelope"></i>
+
+                        E-mail
+
+                    </label>
+
+                    <div class="admin-input-wrapper">
+
+                        <input
+                            type="email"
+                            id="adminEmail"
+                            name="adminEmail"
+                            placeholder="Seu e-mail"
+                            autocomplete="username"
+                            required
+                        >
+
+                        <i class="fa-regular fa-envelope input-icon"></i>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SENHA -->
+
+                <div class="admin-field">
+
+                    <label for="adminPassword">
+
+                        <i class="fa-solid fa-key"></i>
+
+                        Senha
+
+                    </label>
+
+                    <div class="admin-input-wrapper">
+
+                        <input
+                            type="password"
+                            id="adminPassword"
+                            name="adminPassword"
+                            placeholder="Sua senha"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            id="passwordToggle"
+                            aria-label="Mostrar senha"
+                        >
+
+                            <i class="fa-regular fa-eye"></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- LEMBRAR -->
+
+                <div class="admin-options">
+
+                    <label class="remember-option">
+
+                        <input
+                            type="checkbox"
+                            id="rememberAdmin"
+                        >
+
+                        <span class="custom-checkbox"></span>
+
+                        <span>
+                            Lembrar acesso
+                        </span>
+
+                    </label>
+
+                    <button
+                        type="button"
+                        id="forgotPassword"
+                        class="forgot-password"
+                    >
+                        Esqueci minha senha
+                    </button>
+
+                </div>
+
+
+                <!-- MENSAGEM DE ERRO -->
+
+                <div
+                    id="adminError"
+                    class="admin-message admin-error"
+                    role="alert"
+                    hidden
+                >
+
+                    <i class="fa-solid fa-circle-exclamation"></i>
+
+                    <span>
+                        E-mail ou senha incorretos.
+                    </span>
+
+                </div>
+
+
+                <!-- BOTÃO -->
+
+                <button
+                    type="submit"
+                    class="admin-login-button"
+                    id="adminLoginButton"
+                >
+
+                    <span>
+                        Entrar no painel
+                    </span>
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </button>
+
+
+                <!-- CARREGANDO -->
+
+                <div
+                    id="adminLoading"
+                    class="admin-loading"
+                    hidden
+                >
+
+                    <span class="loading-spinner"></span>
+
+                    <span>
+                        Verificando acesso...
+                    </span>
+
+                </div>
+
+            </form>
+
+
+            <!-- =================================================
+                 SEGURANÇA
+            ================================================== -->
+
+            <div class="admin-security">
+
+                <i class="fa-solid fa-shield-halved"></i>
+
+                <span>
+                    Área exclusiva para administração
+                </span>
+
+            </div>
+
+
+            <!-- VOLTAR -->
+
+            <a
+                href="index.html"
+                class="back-to-site"
+            >
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+                Voltar para o site
+
+            </a>
+
+        </div>
+
+    </main>
+
+
+    <!-- =====================================================
+         FIREBASE
+    ====================================================== -->
+
+    <script
+        src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"
+    ></script>
+
+    <script
+        src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"
+    ></script>
+
+    <script
+        src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"
+    ></script>
+
+    <script src="js/firebase.js"></script>
+
+
+    <!-- JS DO LOGIN -->
+    <script src="js/admin-login.js"></script>
+
+</body>
+
+</html>
